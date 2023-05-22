@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+<!--    All-->
+    <string name="all_login">Login</string>
+    <string name="all_signup">Register</string>
+    <string name="all_username">Username</string>
+    <string name="all_full_name">Full Name</string>
+    <string name="all_email">Email</string>
+    <string name="all_password">Password</string>
+    <string name="all_confirm_password">Confirm password</string>
+
+    <!--    Login-->
+    <string name="login_welcomeTitle">"Welcome to 2upFinance"</string>
+    <string name="login_hint_username">Username</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_error_notExistAccount">Account does not exist</string>
+    <string name="login_error_incorrectPassword">Incorrect password</string>
+    <string name="login_forgotPassword">Forgot Password?</string>
+    <string name="login_dontHaveAccount">Don\'t have account?</string>
+
+    <!--    Register-->
+    <string name="register_title_two">An Account </string>
+    <string name="register_already_have_account">Already have an account? </string>
+    <string name="register_clear">Clear</string>
+    <string name="register_show_password">Show Password</string>
+    <string name="register_hide_password">Hide Password</string>
+
+    <string name="register_hint_username">Enter your username</string>
+    <string name="register_hint_full_name">Enter your full name</string>
+    <string name="register_hint_email">Enter your email address</string>
+    <string name="register_hint_password">Enter your password</string>
+    <string name="register_hint_confirm_password">Confirm your password</string>
+
+    <string name="register_error_invalid_username">Please enter a valid username</string>
+    <string name="register_error_invalid_full_name">Please enter a valid full name</string>
+    <string name="register_error_invalid_email">Please enter a valid email</string>
+    <string name="register_error_invalid_password">Please enter a valid password</string>
+    <string name="register_error_invalid_confirm_password">Passwords do not match</string>
+
+    <!--    OTP-->
+    <string name="otp_title">OTP Verification</string>
+    <string name="otp_enterInput">Please check OTP in email</string>
+    <string name="otp_resendOTP">Resend OTP</string>
+    <string name="otp_error_expired">OTP is expired. Please resend OTP</string>
+    <string name="otp_error_activated">User activated</string>
+    <string name="otp_error_format">Email and OTP has wrong format. Please check again</string>
+    <string name="otp_active">Active</string>
+    <string name="otp_error_fillOtp">OTP is wrong. Please enter OTP again</string>
+    <string name="otp_error_email_existed">Email is not existed. Please enter email again</string>
+    <string name="otp_error_fillEmail">Please enter a valid email</string>
+    <string name="otp_hint_email">Email</string>
+</resources>
