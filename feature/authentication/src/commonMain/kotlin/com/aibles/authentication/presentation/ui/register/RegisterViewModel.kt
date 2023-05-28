@@ -1,30 +1,25 @@
-package com.finance2up.authentication.presentation.ui.register
+package com.aibles.authentication.presentation.ui.register
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.aibles.finance.data.remote.util.Resource
-import com.aibles.finance.presentation.utils.ResourcesProvider
-import com.aibles.finance.utils.*
-import com.finance2up.authentication.R
-import com.finance2up.authentication.domain.entity.register.RegisterInfo
-import com.finance2up.authentication.domain.entity.register.RegisterRequest
-import com.finance2up.authentication.domain.usecase.RegisterUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
+import com.aibles.authentication.domain.entity.register.RegisterInfo
+import com.aibles.authentication.domain.entity.register.RegisterRequest
+import com.aibles.authentication.domain.usecase.RegisterUseCase
+import com.aibles.finance2upkmm.data.remote.util.Resource
+import com.aibles.finance2upkmm.presentation.util.isValidEmail
+import com.aibles.finance2upkmm.presentation.util.isValidFullName
+import com.aibles.finance2upkmm.presentation.util.isValidPassword
+import com.aibles.finance2upkmm.presentation.util.isValidUsername
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@HiltViewModel
-class RegisterViewModel @Inject constructor(
-    private var registerUseCase: RegisterUseCase,
-    private val resourcesProvider: ResourcesProvider,
-) :
-    ViewModel() {
+class RegisterViewModel: ScreenModel, KoinComponent {
+    private val registerUseCase: RegisterUseCase by inject()
 
     private val _registerState = MutableStateFlow<Resource<RegisterInfo>>(Resource.loading())
     val registerState: StateFlow<Resource<RegisterInfo>> get() = _registerState
@@ -42,7 +37,7 @@ class RegisterViewModel @Inject constructor(
                 isLoading = true
             )
 
-        viewModelScope.launch(Dispatchers.Main) {
+        coroutineScope.launch {
 
             delay(200)
 
@@ -60,7 +55,6 @@ class RegisterViewModel @Inject constructor(
                 registerUiState.value.copy(isLoading = registerResponse.isLoading())
             _registerState.tryEmit(registerResponse)
 
-            Log.d("check_response", "--- $registerResponse")
         }
     }
 

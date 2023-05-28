@@ -1,4 +1,4 @@
-package com.finance2up.authentication.presentation.ui.otp
+package com.aibles.authentication.presentation.ui.otp
 
 data class OTPUIState(
     val isLoading: Boolean = false,
