@@ -48,10 +48,8 @@ class RegisterScreen: Screen {
     @Composable
     fun RegisterScreen() {
 
-        val canvasDrawCircle = colorResource(id = R.color.canvas_drawCircle_register)
-        val canvasDrawRect = colorResource(id = R.color.canvas_drawRect_register)
-    val canvasDrawCircle = MR.colors.canvas_drawCircle_register
-    val canvasDrawRect = MR.colors.canvas_drawRect_register
+        val canvasDrawCircle = MR.colors.canvas_drawCircle_register
+        val canvasDrawRect = MR.colors.canvas_drawRect_register
 
         val focusManager = LocalFocusManager.current
         val interactionSource = remember { MutableInteractionSource() }
