@@ -25,10 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
@@ -41,12 +38,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.aibles.authentication.presentation.util.fontSizeDimensionResource
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun RegisterScreen(navController: NavController) {
 
-    val canvasDrawCircle = colorResource(id = R.color.canvas_drawCircle_register)
-    val canvasDrawRect = colorResource(id = R.color.canvas_drawRect_register)
+    val canvasDrawCircle = MR.colors.canvas_drawCircle_register
+    val canvasDrawRect = MR.colors.canvas_drawRect_register
 
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
@@ -57,11 +55,11 @@ fun RegisterScreen(navController: NavController) {
     val registerUiState = viewModel.registerUiState.collectAsStateWithLifecycle()
 
     if (registerState.value.isSuccessful()) {
-        Toast.makeText(
-            context,
-            "Register Success",
-            Toast.LENGTH_SHORT,
-        ).show()
+//        Toast.makeText(
+//            context,
+//            "Register Success",
+//            Toast.LENGTH_SHORT,
+//        ).show()
         navController.navigate("OTPScreen")
     }
 
@@ -116,12 +114,12 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_top_register_title)))
 
             Text(
-                text = stringResource(id = R.string.all_signup),
+                text = MR.strings.all_signup.desc().localized(),
                 color = Color.White,
                 fontSize = fontSizeDimensionResource(id = R.dimen.textSize_register_title),
             )
             Text(
-                text = stringResource(id = R.string.register_title_two),
+                text = MR.strings.register_title_two.desc().localized(),
                 color = Color.White,
                 fontSize = fontSizeDimensionResource(id = R.dimen.textSize_register_title),
             )
@@ -134,14 +132,14 @@ fun RegisterScreen(navController: NavController) {
                 RegisterItem(
                     text = registerUiState.value.usernameInput,
                     onValueChange = { viewModel.onUsernameValueChange(it) },
-                    textLabel = stringResource(id = R.string.all_username),
-                    textPlaceholder = stringResource(id = R.string.register_hint_username),
+                    textLabel =  MR.strings.all_username.desc().localized(),
+                    textPlaceholder = MR.strings.register_hint_username.desc().localized(),
                     keyboardType = KeyboardType.Text,
                     trailingIcon = {
                         IconButton(onClick = { viewModel.onUsernameValueChange("") }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
-                                contentDescription = stringResource(id = R.string.register_clear),
+                                contentDescription = MR.strings.register_clear.desc().localized(),
                                 tint = LocalContentColor.current.copy(alpha = 1f),
                             )
                         }
@@ -157,14 +155,14 @@ fun RegisterScreen(navController: NavController) {
                 RegisterItem(
                     text = registerUiState.value.fullNameInput,
                     onValueChange = { viewModel.onFullNameValueChange(it) },
-                    textLabel = stringResource(id = R.string.all_full_name),
-                    textPlaceholder = stringResource(id = R.string.register_hint_full_name),
+                    textLabel = MR.strings.all_full_name.desc().localized(),
+                    textPlaceholder = MR.strings.register_hint_full_name.desc().localized(),
                     keyboardType = KeyboardType.Text,
                     trailingIcon = {
                         IconButton(onClick = { viewModel.onFullNameValueChange("") }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
-                                contentDescription = stringResource(id = R.string.register_clear),
+                                contentDescription = MR.strings.register_clear.desc().localized(),
                                 tint = LocalContentColor.current.copy(alpha = 1f),
                             )
                         }
@@ -180,14 +178,14 @@ fun RegisterScreen(navController: NavController) {
                 RegisterItem(
                     text = registerUiState.value.emailAddressInput,
                     onValueChange = { viewModel.onEmailAddressValueChange(it) },
-                    textLabel = stringResource(id = R.string.all_email),
-                    textPlaceholder = stringResource(id = R.string.register_hint_email),
+                    textLabel = MR.strings.all_email.desc().localized(),
+                    textPlaceholder = MR.strings.register_hint_email.desc().localized(),
                     keyboardType = KeyboardType.Email,
                     trailingIcon = {
                         IconButton(onClick = { viewModel.onEmailAddressValueChange("") }) {
                             Icon(
                                 imageVector = Icons.Filled.Close,
-                                contentDescription = stringResource(id = R.string.register_clear),
+                                contentDescription = MR.strings.register_clear.desc().localized(),
                                 tint = LocalContentColor.current.copy(alpha = 1f),
                             )
                         }
@@ -203,8 +201,8 @@ fun RegisterScreen(navController: NavController) {
                 RegisterPassword(
                     text = registerUiState.value.passwordInput,
                     onValueChange = { viewModel.onPasswordValueChange(it) },
-                    textLabel = stringResource(id = R.string.all_password),
-                    textPlaceholder = stringResource(id = R.string.register_hint_password),
+                    textLabel = MR.strings.all_password.desc().localized(),
+                    textPlaceholder = MR.strings.register_hint_password.desc().localized(),
                     showOrHide = false
                 )
                 AnimatedVisibility(visible = registerUiState.value.visibilityPasswordError) {
@@ -217,8 +215,8 @@ fun RegisterScreen(navController: NavController) {
                 RegisterPassword(
                     text = registerUiState.value.confirmPasswordInput,
                     onValueChange = { viewModel.onPasswordConfirmValueChange(it) },
-                    textLabel = stringResource(id = R.string.all_confirm_password),
-                    textPlaceholder = stringResource(id = R.string.register_hint_confirm_password),
+                    textLabel = MR.strings.all_confirm_password.desc().localized(),
+                    textPlaceholder = MR.strings.register_hint_confirm_password.desc().localized(),
                     showOrHide = false
                 )
                 AnimatedVisibility(visible = registerUiState.value.visibilityConfirmPasswordError) {
@@ -236,7 +234,7 @@ fun RegisterScreen(navController: NavController) {
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = stringResource(id = R.string.all_signup),
+                            text = MR.strings.all_signup.desc().localized(),
                             color = Color.White,
                             fontSize = fontSizeDimensionResource(id = R.dimen.textSize_register_button)
                         )
@@ -252,7 +250,7 @@ fun RegisterScreen(navController: NavController) {
                             modifier = Modifier
                                 .size(100.dp)
                                 .aspectRatio(1f),
-                            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.float_button_register)),
+                            colors = ButtonDefaults.buttonColors(MR.colors.float_button_register),
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowForward,
@@ -284,9 +282,9 @@ fun RegisterScreen(navController: NavController) {
         ) {
             Text(
                 text = buildAnnotatedString {
-                    append(stringResource(id = R.string.register_already_have_account))
+                    append(MR.strings.register_already_have_account.desc().localized())
                     withStyle(SpanStyle(color = Color.Blue)) {
-                        append(stringResource(id = R.string.all_login))
+                        append(MR.strings.all_login.desc().localized())
                     }
                 },
                 fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_registerTextButton),
@@ -368,9 +366,9 @@ fun RegisterPassword(
     val passwordHidden = rememberSaveable { mutableStateOf(showOrHide) }
 
     val icon = if (passwordHidden.value)
-        painterResource(id = R.drawable.ic_show_password)
+        painterResource(MR.images.ic_show_password)
     else
-        painterResource(id = R.drawable.ic_hide_password)
+        painterResource(MR.images.ic_hide_password)
 
     Column(horizontalAlignment = Alignment.Start) {
         OutlinedTextField(

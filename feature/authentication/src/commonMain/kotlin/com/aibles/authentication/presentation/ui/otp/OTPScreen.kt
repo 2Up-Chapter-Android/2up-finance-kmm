@@ -1,8 +1,8 @@
 package com.finance2up.authentication.presentation.ui.otp
 
+import Finance2upKMM.feature.authentication.MR
 import android.annotation.SuppressLint
 import android.os.CountDownTimer
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,8 +17,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -27,6 +25,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.finance2up.authentication.R
 import com.aibles.authentication.presentation.util.fontSizeDimensionResource
+import dev.icerock.moko.resources.compose.localized
+import dev.icerock.moko.resources.compose.painterResource
+
+import dev.icerock.moko.resources.desc.desc
 
 
 @SuppressLint("UnrememberedMutableState")
@@ -70,13 +72,13 @@ fun OTPScreen(navController: NavController) {
         ) {
 
             Text(
-                stringResource(R.string.otp_title), style = MaterialTheme.typography.h5.copy(
+                MR.strings.otp_title.desc().localized(), style = MaterialTheme.typography.h5.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = fontSizeDimensionResource(id = R.dimen.textSize_otp_title)
                 )
             )
             Text(
-                stringResource(R.string.otp_enterInput),
+                MR.strings.otp_enterInput.desc().localized(),
                 style = MaterialTheme.typography.h5.copy(
                     fontSize = fontSizeDimensionResource(id = R.dimen.textSize_otp_checkEmail)
                 ),
@@ -84,7 +86,7 @@ fun OTPScreen(navController: NavController) {
             )
 
             Image(
-                painter = painterResource(id = R.drawable.logo_otp),
+                painter = painterResource(MR.images.logo_otp),
                 contentDescription = "My Image",
                 modifier = Modifier
                     .width(
@@ -152,7 +154,7 @@ fun OTPScreen(navController: NavController) {
             }
 
             AnimatedVisibility(visible = isVisibleResendButton.value) {
-                Text(stringResource(R.string.otp_resendOTP),
+                Text(MR.strings.otp_resendOTP.desc().localized(),
                     style = MaterialTheme.typography.h5.copy(
                         fontWeight = FontWeight.Bold,
                         color = Color.Magenta,
@@ -182,7 +184,7 @@ fun OTPScreen(navController: NavController) {
                     ),
             ) {
                 Text(
-                    stringResource(R.string.otp_active), modifier = Modifier.padding(
+                    MR.strings.otp_active.desc().localized(), modifier = Modifier.padding(
                         vertical = dimensionResource(id = R.dimen.paddingVertical_otp_textButton)
                     ), style = MaterialTheme.typography.h5.copy(
                         fontWeight = FontWeight.Bold, fontSize = fontSizeDimensionResource(
@@ -196,9 +198,9 @@ fun OTPScreen(navController: NavController) {
 
     SideEffect {
         if (otpSendState.value.isSuccessful()) {
-            Toast.makeText(
-                context, otpSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
-            ).show()
+//            Toast.makeText(
+//                context, otpSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
+//            ).show()
 
             otpViewModel.clearStateOTP()
             navController.navigate(route = "LoginScreen")
@@ -207,59 +209,59 @@ fun OTPScreen(navController: NavController) {
 
             when (otpSendState.value.error?.errorData?.code ?: "nothing") {
                 "org.up.finance.exception.OtpNotFoundException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_expired, Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_expired.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                     isVisibleResendButton.value = true
                 }
                 "org.up.finance.exception.OtpBadRequestException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_fillOtp, Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_fillOtp.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                 }
                 "org.up.finance.exception.EmailNotFoundException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_email_existed, Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_email_existed.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                 }
                 "org.up.finance.exception.UserActivatedException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_activated, Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_activated.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                     otpViewModel.clearStateOTP()
                     navController.navigate(route = "LoginScreen")
                 }
                 "org.up.finance.exception.xxx.MethodArgumentNotValidException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_format, Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_format.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                 }
             }
         }
         if (emailSendState.value.isSuccessful()) {
-            Toast.makeText(
-                context, emailSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
-            ).show()
+//            Toast.makeText(
+//                context, emailSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
+//            ).show()
             otpViewModel.clearStateEmail()
         } else if (emailSendState.value.isError() && emailSendState.value.error != null) {
 
             when (emailSendState.value.error?.errorData?.code ?: "nothing") {
-                "org.up.finance.exception.UserActivatedException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_activated, Toast.LENGTH_SHORT
-                    ).show()
+//                "org.up.finance.exception.UserActivatedException" -> {
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_activated.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                     otpViewModel.clearStateEmail()
                     navController.navigate(route = "LoginScreen")
                 }
                 "org.up.finance.exception.EmailNotFoundException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_email_existed, Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_email_existed.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                 }
                 "org.up.finance.exception.xxx.MethodArgumentNotValidException" -> {
-                    Toast.makeText(
-                        context, R.string.otp_error_format, Toast.LENGTH_SHORT
-                    ).show()
+//                    Toast.makeText(
+//                        context, MR.strings.otp_error_format.desc().localized(), Toast.LENGTH_SHORT
+//                    ).show()
                 }
             }
         }
