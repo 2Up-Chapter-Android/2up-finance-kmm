@@ -1,13 +1,11 @@
-package com.finance2up.authentication.presentation.ui.register
+package com.aibles.authentication.presentation.ui.register
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import com.finance2up.authentication.R
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -22,7 +20,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
@@ -34,25 +31,34 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.screen.Screen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.aibles.authentication.presentation.util.fontSizeDimensionResource
 import dev.icerock.moko.resources.compose.painterResource
 
-@Composable
-fun RegisterScreen(navController: NavController) {
+class RegisterScreen: Screen {
+    @Composable
+    override fun Content() {
+        RegisterScreen()
+    }
 
+    @Composable
+    fun RegisterScreen() {
+
+        val canvasDrawCircle = colorResource(id = R.color.canvas_drawCircle_register)
+        val canvasDrawRect = colorResource(id = R.color.canvas_drawRect_register)
     val canvasDrawCircle = MR.colors.canvas_drawCircle_register
     val canvasDrawRect = MR.colors.canvas_drawRect_register
 
-    val focusManager = LocalFocusManager.current
-    val interactionSource = remember { MutableInteractionSource() }
-    val context = LocalContext.current
+        val focusManager = LocalFocusManager.current
+        val interactionSource = remember { MutableInteractionSource() }
 
-    val viewModel: RegisterViewModel = hiltViewModel()
-    val registerState = viewModel.registerState.collectAsStateWithLifecycle()
-    val registerUiState = viewModel.registerUiState.collectAsStateWithLifecycle()
+        val viewModel = rememberScreenModel { RegisterViewModel() }
+        val registerState = viewModel.registerState.collectAsState()
+        val registerUiState = viewModel.registerUiState.collectAsState()
 
     if (registerState.value.isSuccessful()) {
 //        Toast.makeText(
@@ -63,55 +69,55 @@ fun RegisterScreen(navController: NavController) {
         navController.navigate("OTPScreen")
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize(),
-            onDraw = {
-                drawRect(color = canvasDrawRect)
-            }
-        )
-        Canvas(modifier = Modifier.fillMaxSize(),
-            onDraw = {
-                drawCircle(
-                    color = canvasDrawCircle,
-                    center = Offset(
-                        90.dp.toPx(),
-                        -100.dp.toPx()
-                    ),
-                    radius = 350.dp.toPx()
-                )
-            }
-        )
-
-        Canvas(modifier = Modifier.fillMaxSize(),
-            onDraw = {
-                drawCircle(
-                    color = Color.White,
-                    center = Offset(
-                        350.dp.toPx(),
-                        830.dp.toPx()
-                    ),
-                    radius = 200.dp.toPx()
-                )
-            }
-        )
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxWidth()
-                .height(750.dp)
-                .padding(
-                    start = dimensionResource(id = R.dimen.margin_start_register_column),
-                    end = dimensionResource(id = R.dimen.margin_end_register_column)
-                )
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) { focusManager.clearFocus() },
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_top_register_title)))
+            Canvas(modifier = Modifier.fillMaxSize(),
+                onDraw = {
+                    drawRect(color = canvasDrawRect)
+                }
+            )
+            Canvas(modifier = Modifier.fillMaxSize(),
+                onDraw = {
+                    drawCircle(
+                        color = canvasDrawCircle,
+                        center = Offset(
+                            90.dp.toPx(),
+                            -100.dp.toPx()
+                        ),
+                        radius = 350.dp.toPx()
+                    )
+                }
+            )
+
+            Canvas(modifier = Modifier.fillMaxSize(),
+                onDraw = {
+                    drawCircle(
+                        color = Color.White,
+                        center = Offset(
+                            350.dp.toPx(),
+                            830.dp.toPx()
+                        ),
+                        radius = 200.dp.toPx()
+                    )
+                }
+            )
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth()
+                    .height(750.dp)
+                    .padding(
+                        start = dimensionResource(id = R.dimen.margin_start_register_column),
+                        end = dimensionResource(id = R.dimen.margin_end_register_column)
+                    )
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) { focusManager.clearFocus() },
+            ) {
+                Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_top_register_title)))
 
             Text(
                 text = MR.strings.all_signup.desc().localized(),
@@ -124,7 +130,7 @@ fun RegisterScreen(navController: NavController) {
                 fontSize = fontSizeDimensionResource(id = R.dimen.textSize_register_title),
             )
 
-            Spacer(modifier = Modifier.padding(top = dimensionResource(id = R.dimen.margin_bottom_register_button)))
+                Spacer(modifier = Modifier.padding(top = dimensionResource(id = R.dimen.margin_bottom_register_button)))
 
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -299,139 +305,140 @@ fun RegisterScreen(navController: NavController) {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun RegisterItem(
-    text: String,
-    onValueChange: (String) -> Unit,
-    textLabel: String,
-    textPlaceholder: String,
-    trailingIcon: @Composable () -> Unit,
-    keyboardType: KeyboardType
-) {
-    val keyboardController = LocalSoftwareKeyboardController.current
+    @OptIn(ExperimentalComposeUiApi::class)
+    @Composable
+    fun RegisterItem(
+        text: String,
+        onValueChange: (String) -> Unit,
+        textLabel: String,
+        textPlaceholder: String,
+        trailingIcon: @Composable () -> Unit,
+        keyboardType: KeyboardType
+    ) {
+        val keyboardController = LocalSoftwareKeyboardController.current
 
-    Column(horizontalAlignment = Alignment.Start) {
-        OutlinedTextField(
-            value = text, onValueChange = { onValueChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(
-                topEnd = dimensionResource(id = R.dimen.radius_register_outlineTextField),
-                bottomStart = dimensionResource(id = R.dimen.radius_register_outlineTextField)
-            ),
-            label = {
-                Text(
-                    textLabel,
-                    color = Color.White,
+        Column(horizontalAlignment = Alignment.Start) {
+            OutlinedTextField(
+                value = text, onValueChange = { onValueChange(it) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(
+                    topEnd = dimensionResource(id = R.dimen.radius_register_outlineTextField),
+                    bottomStart = dimensionResource(id = R.dimen.radius_register_outlineTextField)
+                ),
+                label = {
+                    Text(
+                        textLabel,
+                        color = Color.White,
 
-                    )
-            },
-            trailingIcon = {
-                if (text.isNotEmpty()) {
-                    trailingIcon()
-                }
-            },
-            placeholder = {
-                Text(text = textPlaceholder)
-            },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = keyboardType
-            ),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.DarkGray,
-            ),
-            singleLine = true,
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                    // i will do something here
-                }
+                        )
+                },
+                trailingIcon = {
+                    if (text.isNotEmpty()) {
+                        trailingIcon()
+                    }
+                },
+                placeholder = {
+                    Text(text = textPlaceholder)
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = keyboardType
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.DarkGray,
+                ),
+                singleLine = true,
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        // i will do something here
+                    }
+                )
             )
-        )
+        }
     }
-}
 
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun RegisterPassword(
-    text: String,
-    onValueChange: (String) -> Unit,
-    textLabel: String,
-    textPlaceholder: String,
-    showOrHide: Boolean
-) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val passwordHidden = rememberSaveable { mutableStateOf(showOrHide) }
+    @OptIn(ExperimentalComposeUiApi::class)
+    @Composable
+    fun RegisterPassword(
+        text: String,
+        onValueChange: (String) -> Unit,
+        textLabel: String,
+        textPlaceholder: String,
+        showOrHide: Boolean
+    ) {
+        val keyboardController = LocalSoftwareKeyboardController.current
+        val passwordHidden = rememberSaveable { mutableStateOf(showOrHide) }
 
     val icon = if (passwordHidden.value)
         painterResource(MR.images.ic_show_password)
     else
         painterResource(MR.images.ic_hide_password)
 
-    Column(horizontalAlignment = Alignment.Start) {
-        OutlinedTextField(
-            value = text,
-            onValueChange = { onValueChange(it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(
-                topEnd = dimensionResource(id = R.dimen.radius_register_outlineTextField),
-                bottomStart = dimensionResource(id = R.dimen.radius_register_outlineTextField)
-            ),
-            label = {
-                Text(
-                    textLabel,
-                    color = Color.White,
-                )
-            },
-            placeholder = { Text(text = textPlaceholder) },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next,
-                keyboardType = KeyboardType.Password
-            ),
-            visualTransformation = if (passwordHidden.value) VisualTransformation.None else PasswordVisualTransformation(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.DarkGray,
-            ),
-            trailingIcon = {
-                if (text.isNotEmpty()) {
-                    IconButton(onClick = {
-                        passwordHidden.value = !passwordHidden.value
-                    }) {
-                        Icon(
-                            painter = icon,
-                            contentDescription = "",
-                            tint = LocalContentColor.current.copy(alpha = 1f)
-                        )
+        Column(horizontalAlignment = Alignment.Start) {
+            OutlinedTextField(
+                value = text,
+                onValueChange = { onValueChange(it) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(
+                    topEnd = dimensionResource(id = R.dimen.radius_register_outlineTextField),
+                    bottomStart = dimensionResource(id = R.dimen.radius_register_outlineTextField)
+                ),
+                label = {
+                    Text(
+                        textLabel,
+                        color = Color.White,
+                    )
+                },
+                placeholder = { Text(text = textPlaceholder) },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Password
+                ),
+                visualTransformation = if (passwordHidden.value) VisualTransformation.None else PasswordVisualTransformation(),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.DarkGray,
+                ),
+                trailingIcon = {
+                    if (text.isNotEmpty()) {
+                        IconButton(onClick = {
+                            passwordHidden.value = !passwordHidden.value
+                        }) {
+                            Icon(
+                                painter = icon,
+                                contentDescription = "",
+                                tint = LocalContentColor.current.copy(alpha = 1f)
+                            )
+                        }
                     }
-                }
-            },
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                    // i will do something here
-                }
+                },
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        keyboardController?.hide()
+                        // i will do something here
+                    }
+                )
             )
-        )
+        }
     }
-}
 
-@Composable
-fun RegisterErrorText(text: String) {
-    Row(
-        Modifier
-            .height(dimensionResource(id = R.dimen.error_register_text_height))
-            .wrapContentWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
-        Text(
-            text,
-            color = MaterialTheme.colors.error,
-            style = MaterialTheme.typography.caption,
-            modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_register_error_text))
-        )
+    @Composable
+    fun RegisterErrorText(text: String) {
+        Row(
+            Modifier
+                .height(dimensionResource(id = R.dimen.error_register_text_height))
+                .wrapContentWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                text,
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_register_error_text))
+            )
+        }
     }
 }

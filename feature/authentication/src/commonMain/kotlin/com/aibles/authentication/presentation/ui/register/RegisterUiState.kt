@@ -1,4 +1,4 @@
-package com.finance2up.authentication.presentation.ui.register
+package com.aibles.authentication.presentation.ui.register
 
 data class RegisterUiState(
 

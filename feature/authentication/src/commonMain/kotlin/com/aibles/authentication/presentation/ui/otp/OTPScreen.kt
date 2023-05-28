@@ -1,4 +1,4 @@
-package com.finance2up.authentication.presentation.ui.otp
+package com.aibles.authentication.presentation.ui.otp
 
 import Finance2upKMM.feature.authentication.MR
 import android.annotation.SuppressLint
@@ -20,6 +20,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.screen.Screen
+import com.aibles.finance2upkmm.presentation.util.CountDownTimer
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -30,31 +33,33 @@ import dev.icerock.moko.resources.compose.painterResource
 
 import dev.icerock.moko.resources.desc.desc
 
-
-@SuppressLint("UnrememberedMutableState")
-@Composable
-fun OTPScreen(navController: NavController) {
-    val otpViewModel: OTPViewModel = hiltViewModel()
-
-    val otpUIState = otpViewModel.otpUIState.collectAsStateWithLifecycle()
-    val otpSendState = otpViewModel.otpSendState.collectAsState()
-
-    val emailSendState = otpViewModel.emailSendState.collectAsState()
-
-    val context = LocalContext.current
-
-    val isVisibleResendButton = remember {
-        mutableStateOf(false)
+class OTPScreen : Screen {
+    @Composable
+    override fun Content() {
+        OTPScreen()
     }
-    val countDownTimer = remember {
-        object : CountDownTimer(61_000, 1000) {
 
-            override fun onTick(millisUntilFinished: Long) {
-            }
+    @Composable
+    fun OTPScreen() {
+        val otpViewModel: OTPViewModel = rememberScreenModel { OTPViewModel() }
 
-            override fun onFinish() {
-                isVisibleResendButton.value = true
-            }
+        val otpUIState = otpViewModel.otpUIState.collectAsState()
+        val otpSendState = otpViewModel.otpSendState.collectAsState()
+
+        val emailSendState = otpViewModel.emailSendState.collectAsState()
+
+        val isVisibleResendButton = remember {
+            mutableStateOf(false)
+        }
+        val countDownTimer = remember {
+            object : CountDownTimer(61_000, 1000) {
+
+                override fun onTick(millisUntilFinished: Long) {
+                }
+
+                override fun onFinish() {
+                    isVisibleResendButton.value = true
+                }
         }
     }
 
@@ -202,8 +207,8 @@ fun OTPScreen(navController: NavController) {
 //                context, otpSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
 //            ).show()
 
-            otpViewModel.clearStateOTP()
-            navController.navigate(route = "LoginScreen")
+                otpViewModel.clearStateOTP()
+                navController.navigate(route = "LoginScreen")
 
         } else if (otpSendState.value.isError() && otpSendState.value.error != null) {
 
@@ -308,13 +313,14 @@ fun TextFieldEnterOTP(
             )
             .height(dimensionResource(id = R.dimen.height_otp_textField))
 
-            .focusRequester(focusRequester), keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
-        ), singleLine = true, textStyle = TextStyle(fontWeight = FontWeight.Bold)
-    )
-    LaunchedEffect(value) {
-        if (value.length == 1) {
-            nextFocusRequester.requestFocus()
+                .focusRequester(focusRequester), keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ), singleLine = true, textStyle = TextStyle(fontWeight = FontWeight.Bold)
+        )
+        LaunchedEffect(value) {
+            if (value.length == 1) {
+                nextFocusRequester.requestFocus()
+            }
         }
     }
 }
