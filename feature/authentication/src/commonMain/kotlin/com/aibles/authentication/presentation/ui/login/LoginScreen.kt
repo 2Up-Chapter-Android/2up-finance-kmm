@@ -207,8 +207,8 @@ class LoginScreen: Screen{
                                 interactionSource = interactionSource,
                                 indication = null
                             ) {
-                                Toast.makeText(context, "Navigated to register", Toast.LENGTH_SHORT)
-                                    .show()
+//                                Toast.makeText(context, "Navigated to register", Toast.LENGTH_SHORT)
+//                                    .show()
                             }
                     )
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginBottom_login_registerTextButton)))
