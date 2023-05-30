@@ -1,0 +1,24 @@
+CREATE TABLE RegisterInfo (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    status INTEGER,
+    statusMessage TEXT ,
+    timeStamp TEXT
+);
+
+CREATE TABLE AccountInformation (
+    id  TEXT PRIMARY KEY,
+    email TEXT,
+    username TEXT,
+    fullName TEXT,
+    actived TEXT,
+    registerId INTEGER
+);
+
+removeAllInfo:
+DELETE FROM RegisterInfo;
+
+selectAllRegisterInfo:
+SELECT * FROM RegisterInfo;
+
+insertRegisterInfo:
+INSERT INTO RegisterInfo(status, statusMessage, timeStamp) VALUES (?,?,?);
