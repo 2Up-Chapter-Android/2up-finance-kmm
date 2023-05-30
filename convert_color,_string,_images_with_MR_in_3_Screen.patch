@@ -1,0 +1,386 @@
+Index: feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/login/LoginScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/login/LoginScreen.kt b/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/login/LoginScreen.kt
+--- a/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/login/LoginScreen.kt	(revision bf5d0ad0f21490e76fa9f8911e582ca51c60fa06)
++++ b/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/login/LoginScreen.kt	(revision f05c143f986d3bdc32b9eb542a9abb6788eb9d59)
+@@ -207,8 +207,8 @@
+                                 interactionSource = interactionSource,
+                                 indication = null
+                             ) {
+-                                Toast.makeText(context, "Navigated to register", Toast.LENGTH_SHORT)
+-                                    .show()
++//                                Toast.makeText(context, "Navigated to register", Toast.LENGTH_SHORT)
++//                                    .show()
+                             }
+                     )
+                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginBottom_login_registerTextButton)))
+Index: feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/otp/OTPScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/otp/OTPScreen.kt b/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/otp/OTPScreen.kt
+--- a/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/otp/OTPScreen.kt	(revision bf5d0ad0f21490e76fa9f8911e582ca51c60fa06)
++++ b/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/otp/OTPScreen.kt	(revision f05c143f986d3bdc32b9eb542a9abb6788eb9d59)
+@@ -1,8 +1,8 @@
+ package com.finance2up.authentication.presentation.ui.otp
+ 
++import Finance2upKMM.feature.authentication.MR
+ import android.annotation.SuppressLint
+ import android.os.CountDownTimer
+-import android.widget.Toast
+ import androidx.compose.animation.AnimatedVisibility
+ import androidx.compose.foundation.Image
+ import androidx.compose.foundation.clickable
+@@ -17,8 +17,6 @@
+ import androidx.compose.ui.graphics.Color
+ import androidx.compose.ui.platform.LocalContext
+ import androidx.compose.ui.res.dimensionResource
+-import androidx.compose.ui.res.painterResource
+-import androidx.compose.ui.res.stringResource
+ import androidx.compose.ui.text.TextStyle
+ import androidx.compose.ui.text.font.FontWeight
+ import androidx.compose.ui.text.input.KeyboardType
+@@ -27,6 +25,10 @@
+ import androidx.navigation.NavController
+ import com.finance2up.authentication.R
+ import com.aibles.authentication.presentation.util.fontSizeDimensionResource
++import dev.icerock.moko.resources.compose.localized
++import dev.icerock.moko.resources.compose.painterResource
++
++import dev.icerock.moko.resources.desc.desc
+ 
+ 
+ @SuppressLint("UnrememberedMutableState")
+@@ -70,13 +72,13 @@
+         ) {
+ 
+             Text(
+-                stringResource(R.string.otp_title), style = MaterialTheme.typography.h5.copy(
++                MR.strings.otp_title.desc().localized(), style = MaterialTheme.typography.h5.copy(
+                     fontWeight = FontWeight.Bold,
+                     fontSize = fontSizeDimensionResource(id = R.dimen.textSize_otp_title)
+                 )
+             )
+             Text(
+-                stringResource(R.string.otp_enterInput),
++                MR.strings.otp_enterInput.desc().localized(),
+                 style = MaterialTheme.typography.h5.copy(
+                     fontSize = fontSizeDimensionResource(id = R.dimen.textSize_otp_checkEmail)
+                 ),
+@@ -84,7 +86,7 @@
+             )
+ 
+             Image(
+-                painter = painterResource(id = R.drawable.logo_otp),
++                painter = painterResource(MR.images.logo_otp),
+                 contentDescription = "My Image",
+                 modifier = Modifier
+                     .width(
+@@ -152,7 +154,7 @@
+             }
+ 
+             AnimatedVisibility(visible = isVisibleResendButton.value) {
+-                Text(stringResource(R.string.otp_resendOTP),
++                Text(MR.strings.otp_resendOTP.desc().localized(),
+                     style = MaterialTheme.typography.h5.copy(
+                         fontWeight = FontWeight.Bold,
+                         color = Color.Magenta,
+@@ -182,7 +184,7 @@
+                     ),
+             ) {
+                 Text(
+-                    stringResource(R.string.otp_active), modifier = Modifier.padding(
++                    MR.strings.otp_active.desc().localized(), modifier = Modifier.padding(
+                         vertical = dimensionResource(id = R.dimen.paddingVertical_otp_textButton)
+                     ), style = MaterialTheme.typography.h5.copy(
+                         fontWeight = FontWeight.Bold, fontSize = fontSizeDimensionResource(
+@@ -196,9 +198,9 @@
+ 
+     SideEffect {
+         if (otpSendState.value.isSuccessful()) {
+-            Toast.makeText(
+-                context, otpSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
+-            ).show()
++//            Toast.makeText(
++//                context, otpSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
++//            ).show()
+ 
+             otpViewModel.clearStateOTP()
+             navController.navigate(route = "LoginScreen")
+@@ -207,59 +209,59 @@
+ 
+             when (otpSendState.value.error?.errorData?.code ?: "nothing") {
+                 "org.up.finance.exception.OtpNotFoundException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_expired, Toast.LENGTH_SHORT
+-                    ).show()
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_expired.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                     isVisibleResendButton.value = true
+                 }
+                 "org.up.finance.exception.OtpBadRequestException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_fillOtp, Toast.LENGTH_SHORT
+-                    ).show()
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_fillOtp.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                 }
+                 "org.up.finance.exception.EmailNotFoundException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_email_existed, Toast.LENGTH_SHORT
+-                    ).show()
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_email_existed.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                 }
+                 "org.up.finance.exception.UserActivatedException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_activated, Toast.LENGTH_SHORT
+-                    ).show()
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_activated.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                     otpViewModel.clearStateOTP()
+                     navController.navigate(route = "LoginScreen")
+                 }
+                 "org.up.finance.exception.xxx.MethodArgumentNotValidException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_format, Toast.LENGTH_SHORT
+-                    ).show()
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_format.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                 }
+             }
+         }
+         if (emailSendState.value.isSuccessful()) {
+-            Toast.makeText(
+-                context, emailSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
+-            ).show()
++//            Toast.makeText(
++//                context, emailSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
++//            ).show()
+             otpViewModel.clearStateEmail()
+         } else if (emailSendState.value.isError() && emailSendState.value.error != null) {
+ 
+             when (emailSendState.value.error?.errorData?.code ?: "nothing") {
+-                "org.up.finance.exception.UserActivatedException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_activated, Toast.LENGTH_SHORT
+-                    ).show()
++//                "org.up.finance.exception.UserActivatedException" -> {
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_activated.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                     otpViewModel.clearStateEmail()
+                     navController.navigate(route = "LoginScreen")
+                 }
+                 "org.up.finance.exception.EmailNotFoundException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_email_existed, Toast.LENGTH_SHORT
+-                    ).show()
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_email_existed.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                 }
+                 "org.up.finance.exception.xxx.MethodArgumentNotValidException" -> {
+-                    Toast.makeText(
+-                        context, R.string.otp_error_format, Toast.LENGTH_SHORT
+-                    ).show()
++//                    Toast.makeText(
++//                        context, MR.strings.otp_error_format.desc().localized(), Toast.LENGTH_SHORT
++//                    ).show()
+                 }
+             }
+         }
+Index: feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/register/RegisterScreen.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/register/RegisterScreen.kt b/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/register/RegisterScreen.kt
+--- a/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/register/RegisterScreen.kt	(revision bf5d0ad0f21490e76fa9f8911e582ca51c60fa06)
++++ b/feature/authentication/src/commonMain/kotlin/com/aibles/authentication/presentation/ui/register/RegisterScreen.kt	(revision f05c143f986d3bdc32b9eb542a9abb6788eb9d59)
+@@ -25,10 +25,7 @@
+ import androidx.compose.ui.platform.LocalContext
+ import androidx.compose.ui.platform.LocalFocusManager
+ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+-import androidx.compose.ui.res.colorResource
+ import androidx.compose.ui.res.dimensionResource
+-import androidx.compose.ui.res.painterResource
+-import androidx.compose.ui.res.stringResource
+ import androidx.compose.ui.text.SpanStyle
+ import androidx.compose.ui.text.buildAnnotatedString
+ import androidx.compose.ui.text.input.ImeAction
+@@ -41,12 +38,13 @@
+ import androidx.lifecycle.compose.collectAsStateWithLifecycle
+ import androidx.navigation.NavController
+ import com.aibles.authentication.presentation.util.fontSizeDimensionResource
++import dev.icerock.moko.resources.compose.painterResource
+ 
+ @Composable
+ fun RegisterScreen(navController: NavController) {
+ 
+-    val canvasDrawCircle = colorResource(id = R.color.canvas_drawCircle_register)
+-    val canvasDrawRect = colorResource(id = R.color.canvas_drawRect_register)
++    val canvasDrawCircle = MR.colors.canvas_drawCircle_register
++    val canvasDrawRect = MR.colors.canvas_drawRect_register
+ 
+     val focusManager = LocalFocusManager.current
+     val interactionSource = remember { MutableInteractionSource() }
+@@ -57,11 +55,11 @@
+     val registerUiState = viewModel.registerUiState.collectAsStateWithLifecycle()
+ 
+     if (registerState.value.isSuccessful()) {
+-        Toast.makeText(
+-            context,
+-            "Register Success",
+-            Toast.LENGTH_SHORT,
+-        ).show()
++//        Toast.makeText(
++//            context,
++//            "Register Success",
++//            Toast.LENGTH_SHORT,
++//        ).show()
+         navController.navigate("OTPScreen")
+     }
+ 
+@@ -116,12 +114,12 @@
+             Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_top_register_title)))
+ 
+             Text(
+-                text = stringResource(id = R.string.all_signup),
++                text = MR.strings.all_signup.desc().localized(),
+                 color = Color.White,
+                 fontSize = fontSizeDimensionResource(id = R.dimen.textSize_register_title),
+             )
+             Text(
+-                text = stringResource(id = R.string.register_title_two),
++                text = MR.strings.register_title_two.desc().localized(),
+                 color = Color.White,
+                 fontSize = fontSizeDimensionResource(id = R.dimen.textSize_register_title),
+             )
+@@ -134,14 +132,14 @@
+                 RegisterItem(
+                     text = registerUiState.value.usernameInput,
+                     onValueChange = { viewModel.onUsernameValueChange(it) },
+-                    textLabel = stringResource(id = R.string.all_username),
+-                    textPlaceholder = stringResource(id = R.string.register_hint_username),
++                    textLabel =  MR.strings.all_username.desc().localized(),
++                    textPlaceholder = MR.strings.register_hint_username.desc().localized(),
+                     keyboardType = KeyboardType.Text,
+                     trailingIcon = {
+                         IconButton(onClick = { viewModel.onUsernameValueChange("") }) {
+                             Icon(
+                                 imageVector = Icons.Filled.Close,
+-                                contentDescription = stringResource(id = R.string.register_clear),
++                                contentDescription = MR.strings.register_clear.desc().localized(),
+                                 tint = LocalContentColor.current.copy(alpha = 1f),
+                             )
+                         }
+@@ -157,14 +155,14 @@
+                 RegisterItem(
+                     text = registerUiState.value.fullNameInput,
+                     onValueChange = { viewModel.onFullNameValueChange(it) },
+-                    textLabel = stringResource(id = R.string.all_full_name),
+-                    textPlaceholder = stringResource(id = R.string.register_hint_full_name),
++                    textLabel = MR.strings.all_full_name.desc().localized(),
++                    textPlaceholder = MR.strings.register_hint_full_name.desc().localized(),
+                     keyboardType = KeyboardType.Text,
+                     trailingIcon = {
+                         IconButton(onClick = { viewModel.onFullNameValueChange("") }) {
+                             Icon(
+                                 imageVector = Icons.Filled.Close,
+-                                contentDescription = stringResource(id = R.string.register_clear),
++                                contentDescription = MR.strings.register_clear.desc().localized(),
+                                 tint = LocalContentColor.current.copy(alpha = 1f),
+                             )
+                         }
+@@ -180,14 +178,14 @@
+                 RegisterItem(
+                     text = registerUiState.value.emailAddressInput,
+                     onValueChange = { viewModel.onEmailAddressValueChange(it) },
+-                    textLabel = stringResource(id = R.string.all_email),
+-                    textPlaceholder = stringResource(id = R.string.register_hint_email),
++                    textLabel = MR.strings.all_email.desc().localized(),
++                    textPlaceholder = MR.strings.register_hint_email.desc().localized(),
+                     keyboardType = KeyboardType.Email,
+                     trailingIcon = {
+                         IconButton(onClick = { viewModel.onEmailAddressValueChange("") }) {
+                             Icon(
+                                 imageVector = Icons.Filled.Close,
+-                                contentDescription = stringResource(id = R.string.register_clear),
++                                contentDescription = MR.strings.register_clear.desc().localized(),
+                                 tint = LocalContentColor.current.copy(alpha = 1f),
+                             )
+                         }
+@@ -203,8 +201,8 @@
+                 RegisterPassword(
+                     text = registerUiState.value.passwordInput,
+                     onValueChange = { viewModel.onPasswordValueChange(it) },
+-                    textLabel = stringResource(id = R.string.all_password),
+-                    textPlaceholder = stringResource(id = R.string.register_hint_password),
++                    textLabel = MR.strings.all_password.desc().localized(),
++                    textPlaceholder = MR.strings.register_hint_password.desc().localized(),
+                     showOrHide = false
+                 )
+                 AnimatedVisibility(visible = registerUiState.value.visibilityPasswordError) {
+@@ -217,8 +215,8 @@
+                 RegisterPassword(
+                     text = registerUiState.value.confirmPasswordInput,
+                     onValueChange = { viewModel.onPasswordConfirmValueChange(it) },
+-                    textLabel = stringResource(id = R.string.all_confirm_password),
+-                    textPlaceholder = stringResource(id = R.string.register_hint_confirm_password),
++                    textLabel = MR.strings.all_confirm_password.desc().localized(),
++                    textPlaceholder = MR.strings.register_hint_confirm_password.desc().localized(),
+                     showOrHide = false
+                 )
+                 AnimatedVisibility(visible = registerUiState.value.visibilityConfirmPasswordError) {
+@@ -236,7 +234,7 @@
+                         horizontalArrangement = Arrangement.Center
+                     ) {
+                         Text(
+-                            text = stringResource(id = R.string.all_signup),
++                            text = MR.strings.all_signup.desc().localized(),
+                             color = Color.White,
+                             fontSize = fontSizeDimensionResource(id = R.dimen.textSize_register_button)
+                         )
+@@ -252,7 +250,7 @@
+                             modifier = Modifier
+                                 .size(100.dp)
+                                 .aspectRatio(1f),
+-                            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.float_button_register)),
++                            colors = ButtonDefaults.buttonColors(MR.colors.float_button_register),
+                         ) {
+                             Icon(
+                                 imageVector = Icons.Filled.ArrowForward,
+@@ -284,9 +282,9 @@
+         ) {
+             Text(
+                 text = buildAnnotatedString {
+-                    append(stringResource(id = R.string.register_already_have_account))
++                    append(MR.strings.register_already_have_account.desc().localized())
+                     withStyle(SpanStyle(color = Color.Blue)) {
+-                        append(stringResource(id = R.string.all_login))
++                        append(MR.strings.all_login.desc().localized())
+                     }
+                 },
+                 fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_registerTextButton),
+@@ -368,9 +366,9 @@
+     val passwordHidden = rememberSaveable { mutableStateOf(showOrHide) }
+ 
+     val icon = if (passwordHidden.value)
+-        painterResource(id = R.drawable.ic_show_password)
++        painterResource(MR.images.ic_show_password)
+     else
+-        painterResource(id = R.drawable.ic_hide_password)
++        painterResource(MR.images.ic_hide_password)
+ 
+     Column(horizontalAlignment = Alignment.Start) {
+         OutlinedTextField(
