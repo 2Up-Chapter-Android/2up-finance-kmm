@@ -8,10 +8,11 @@ import kotlinx.coroutines.withContext
 
 data class Resource<out T>(val status: Status, val data: T?, val error: CustomException?) {
     enum class Status {
-        SUCCESS,
-        ERROR,
-        LOADING
+        SUCCESS, ERROR, LOADING
     }
+
+//    data class Success<T>(val data: T?) : Resource<T>(Status.SUCCESS)
+//    data class Error(val error: CustomException) : Resource<Nothing>(Status.ERROR)
 
     companion object {
         fun <T> success(data: T): Resource<T> {

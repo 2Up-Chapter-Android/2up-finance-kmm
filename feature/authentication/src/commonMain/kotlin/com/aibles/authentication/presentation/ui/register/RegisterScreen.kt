@@ -245,8 +245,10 @@ class RegisterScreen: Screen {
 
                         Spacer(modifier = Modifier.padding(margin_bottom_register_button))
 
+                        val onClickRegister = mutableStateOf(false)
+                        if (onClickRegister.value) viewModel.registerRequest()
                         Button(
-                            onClick = { viewModel.registerRequest() },
+                            onClick = { onClickRegister.value = true },
                             enabled = registerUiState.value.enableRegisterButton,
                             shape = RoundedCornerShape(
                                 size = radius_register_button

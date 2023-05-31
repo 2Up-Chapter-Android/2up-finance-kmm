@@ -49,6 +49,8 @@ kotlin {
                 api(libs.koin.core)
                 //Navigation
                 implementation(libs.voyager.navigator)
+                //Logging
+                implementation(libs.napier)
             }
         }
         val commonTest by getting {
@@ -56,10 +58,7 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting {
-            dependencies {
-            }
-        }
+        val androidMain by getting
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting

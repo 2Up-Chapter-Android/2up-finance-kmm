@@ -2,6 +2,11 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     kotlin("plugin.serialization")
+    id("de.jensklingenberg.ktorfit") version "1.0.0"
+}
+
+configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
+    version = libs.versions.ktorfit.get()
 }
 
 kotlin {

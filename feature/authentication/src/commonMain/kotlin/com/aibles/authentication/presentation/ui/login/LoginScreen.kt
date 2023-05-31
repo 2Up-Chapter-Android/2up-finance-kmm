@@ -35,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -52,13 +53,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.aibles.authentication.domain.entity.login.LoginResponseEntity
 import com.aibles.authentication.presentation.theme.*
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.desc.desc
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
+import kotlinx.coroutines.flow.collect
 
-class LoginScreen: Screen{
+class LoginScreen : Screen {
     @Composable
     override fun Content() {
         LoginScreen()
@@ -66,9 +71,10 @@ class LoginScreen: Screen{
 
     @Composable
     fun LoginScreen() {
+        Napier.base(DebugAntilog())
         val focusManager = LocalFocusManager.current
         val interactionSource = remember { MutableInteractionSource() }
-        val viewModel = rememberScreenModel{ LoginViewModel() }
+        val viewModel = rememberScreenModel { LoginViewModel() }
         val usernameInput = viewModel.usernameInput.collectAsState()
         val passwordInput = viewModel.passwordInput.collectAsState()
         val loginState = viewModel.loginState.collectAsState()
@@ -172,10 +178,14 @@ class LoginScreen: Screen{
                     }
 
                     Spacer(modifier = Modifier.height(marginTop_login_loginButton))
+
+                    val onClickLogin = rememberSaveable { mutableStateOf(false) }
+                    if (onClickLogin.value) {
+                        onClickLogin.value = false
+                        viewModel.login()
+                    }
                     Button(
-                        onClick = {
-                            viewModel.login()
-                        },
+                        onClick = { onClickLogin.value = true },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(height_login_loginButton),
