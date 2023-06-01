@@ -14,6 +14,7 @@ import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -28,7 +29,7 @@ class LoginViewModel: ScreenModel, KoinComponent {
     val passwordInput: StateFlow<String> get() = _passwordInput
 
     private val _loginState = MutableStateFlow<Resource<LoginResponseEntity>>(Resource.loading())
-    val loginState: StateFlow<Resource<LoginResponseEntity>> get() = _loginState
+    val loginState = _loginState.asStateFlow()
 
     private val _loginUiState = MutableStateFlow(LoginUIState())
     val loginUiState: StateFlow<LoginUIState> get() = _loginUiState
@@ -40,7 +41,7 @@ class LoginViewModel: ScreenModel, KoinComponent {
         coroutineScope.launch {
             delay(200)
             val loginResponse = loginUseCase(usernameInput.value, passwordInput.value)
-            _loginUiState.value = loginUiState.value.copy(isLoading = loginResponse.isLoading())
+            _loginUiState.value = loginUiState.value.copy(isLoading = false)
             _loginState.tryEmit(loginResponse)
 
         }

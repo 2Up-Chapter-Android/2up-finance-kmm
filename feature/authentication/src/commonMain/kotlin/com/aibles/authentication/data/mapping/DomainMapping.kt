@@ -33,25 +33,37 @@ fun RegisterResponse.Data?.mapToDomain(): RegisterInfo.AccountInformation {
 }
 
 fun LoginResponse?.mapToDomain(): LoginResponseEntity {
-    return this?.let {
-        LoginResponseEntity(
-            data = data.mapToDomain(),
-            message = message,
-            status = status
-        )
-    } ?: LoginResponseEntity()
+//    return this?.let {
+//        LoginResponseEntity(
+//            data = data.mapToDomain(),
+//            message = message,
+//            status = status
+//        )
+//    } ?: LoginResponseEntity()
+    return LoginResponseEntity(
+        this?.data.mapToDomain(),
+        this?.message ?: "",
+        this?.status ?: 0
+    )
 }
 
 private fun LoginResponse.LoginResponseData?.mapToDomain(): LoginResponseEntity.LoginResponseData {
-    return this?.let {
-        LoginResponseEntity.LoginResponseData(
-            accessToken = accessToken,
-            accessTokenLifeTime = accessTokenLifeTime,
-            refreshToken = refreshToken,
-            refreshTokenLifeTime = refreshTokenLifeTime,
-            tokenType = tokenType
-        )
-    } ?: LoginResponseEntity.LoginResponseData()
+//    return this?.let {
+//        LoginResponseEntity.LoginResponseData(
+//            accessToken = accessToken,
+//            accessTokenLifeTime = accessTokenLifeTime,
+//            refreshToken = refreshToken,
+//            refreshTokenLifeTime = refreshTokenLifeTime,
+//            tokenType = tokenType
+//        )
+//    } ?: LoginResponseEntity.LoginResponseData()
+    return LoginResponseEntity.LoginResponseData(
+        this?.accessToken ?: "nothing",
+        this?.accessTokenLifeTime ?: 0,
+        this?.refreshToken ?: "nothing",
+        this?.refreshTokenLifeTime ?: 0,
+        this?.tokenType ?: ""
+    )
 }
 
 fun EmailResponse?.mapToDomain(): EmailInfo {

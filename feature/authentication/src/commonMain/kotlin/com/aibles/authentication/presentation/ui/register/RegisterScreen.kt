@@ -58,14 +58,14 @@ class RegisterScreen: Screen {
         val registerState = viewModel.registerState.collectAsState()
         val registerUiState = viewModel.registerUiState.collectAsState()
 
-    if (registerState.value.isSuccessful()) {
+//    if (registerState.value.isSuccessful()) {
 //        Toast.makeText(
 //            context,
 //            "Register Success",
 //            Toast.LENGTH_SHORT,
 //        ).show()
 //        navController.navigate("OTPScreen")
-    }
+//    }
 
         Box(
             modifier = Modifier.fillMaxSize()
