@@ -4,7 +4,6 @@ import de.jensklingenberg.ktorfit.internal.TypeData
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
-import io.ktor.util.reflect.TypeInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -55,10 +54,10 @@ suspend inline fun <reified T> HttpResponse.mapToResource(typeData: TypeData): R
                 Resource.success(body(typeData.typeArgs.first().typeInfo))
             } else {
                 val errorBody = body<BaseErrorResponse>().data
-                Resource.error(CustomException(errorBody?.code, errorBody?.detail), null)
+                Resource.error(HttpException(errorBody?.code, errorBody?.detail), null)
             }
         } catch (exception: Exception) {
-            Resource.error(CustomException(errorMessage = exception.message), null)
+            Resource.error(UnknownException(msg = exception.message), null)
         }
     }
 }

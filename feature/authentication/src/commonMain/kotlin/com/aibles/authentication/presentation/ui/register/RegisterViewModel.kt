@@ -1,7 +1,5 @@
 package com.aibles.authentication.presentation.ui.register
 
-import Finance2upKMM.feature.authentication.MR
-import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.aibles.authentication.domain.entity.register.RegisterInfo
@@ -12,8 +10,6 @@ import com.aibles.finance2upkmm.presentation.util.isValidEmail
 import com.aibles.finance2upkmm.presentation.util.isValidFullName
 import com.aibles.finance2upkmm.presentation.util.isValidPassword
 import com.aibles.finance2upkmm.presentation.util.isValidUsername
-import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,9 +27,14 @@ class RegisterViewModel : ScreenModel, KoinComponent {
     private val _registerUiState = MutableStateFlow(RegisterUiState())
     val registerUiState: StateFlow<RegisterUiState> = _registerUiState.asStateFlow()
 
-    @Composable
-    fun registerRequest() {
-        if (!isValidateInput()) return
+    fun registerRequest(
+        invalidUsernameErrorMsg: String,
+        invalidFullNameErrorMsg: String,
+        invalidEmailErrorMsg: String,
+        invalidPasswordErrorMsg: String,
+        invalidConfirmPasswordErrorMsg: String
+    ) {
+        if (!isValidateInput(invalidUsernameErrorMsg, invalidFullNameErrorMsg, invalidEmailErrorMsg, invalidPasswordErrorMsg, invalidConfirmPasswordErrorMsg)) return
 
         _registerUiState.value =
             registerUiState.value.copy(
@@ -59,8 +60,13 @@ class RegisterViewModel : ScreenModel, KoinComponent {
         }
     }
 
-    @Composable
-    private fun isValidateInput(): Boolean {
+    private fun isValidateInput(
+        invalidUsernameErrorMsg: String,
+        invalidFullNameErrorMsg: String,
+        invalidEmailErrorMsg: String,
+        invalidPasswordErrorMsg: String,
+        invalidConfirmPasswordErrorMsg: String
+    ): Boolean {
 
         _registerUiState.value = registerUiState.value.copy(
             usernameError = "",
@@ -72,36 +78,35 @@ class RegisterViewModel : ScreenModel, KoinComponent {
         var isValid = true
         if (!registerUiState.value.usernameInput.isValidUsername()) {
             _registerUiState.value = registerUiState.value.copy(
-                usernameError = MR.strings.register_error_invalid_username.desc().localized()
+                usernameError = invalidUsernameErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.fullNameInput.isValidFullName()) {
             _registerUiState.value = registerUiState.value.copy(
-                fullNameError = MR.strings.register_error_invalid_full_name.desc().localized()
+                fullNameError = invalidFullNameErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.emailAddressInput.isValidEmail()) {
             _registerUiState.value = registerUiState.value.copy(
-                emailAddressError = MR.strings.register_error_invalid_email.desc().localized()
+                emailAddressError = invalidEmailErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.passwordInput.isValidPassword()) {
             _registerUiState.value = registerUiState.value.copy(
-                passwordError = MR.strings.register_error_invalid_password.desc().localized()
+                passwordError = invalidPasswordErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.confirmPasswordInput.isValidPassword()) {
             _registerUiState.value = registerUiState.value.copy(
-                passwordConfirmError = MR.strings.register_error_invalid_confirm_password.desc()
-                    .localized()
+                passwordConfirmError = invalidConfirmPasswordErrorMsg
             )
             isValid = false
         }

@@ -58,15 +58,6 @@ class RegisterScreen: Screen {
         val registerState = viewModel.registerState.collectAsState()
         val registerUiState = viewModel.registerUiState.collectAsState()
 
-//    if (registerState.value.isSuccessful()) {
-//        Toast.makeText(
-//            context,
-//            "Register Success",
-//            Toast.LENGTH_SHORT,
-//        ).show()
-//        navController.navigate("OTPScreen")
-//    }
-
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -245,10 +236,13 @@ class RegisterScreen: Screen {
 
                         Spacer(modifier = Modifier.padding(margin_bottom_register_button))
 
-                        val onClickRegister = mutableStateOf(false)
-                        if (onClickRegister.value) viewModel.registerRequest()
+                        val invalidUsernameErrorMsg = MR.strings.register_error_invalid_username.desc().localized()
+                        val invalidFullNameErrorMsg = MR.strings.register_error_invalid_full_name.desc().localized()
+                        val invalidEmailErrorMsg = MR.strings.register_error_invalid_email.desc().localized()
+                        val invalidPasswordErrorMsg = MR.strings.register_error_invalid_password.desc().localized()
+                        val invalidConfirmPasswordErrorMsg = MR.strings.register_error_invalid_confirm_password.desc().localized()
                         Button(
-                            onClick = { onClickRegister.value = true },
+                            onClick = { viewModel.registerRequest(invalidUsernameErrorMsg, invalidFullNameErrorMsg, invalidEmailErrorMsg, invalidPasswordErrorMsg, invalidConfirmPasswordErrorMsg) },
                             enabled = registerUiState.value.enableRegisterButton,
                             shape = RoundedCornerShape(
                                 size = radius_register_button

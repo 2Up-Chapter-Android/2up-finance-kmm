@@ -22,11 +22,10 @@ val networkModule = module {
 
 private inline fun provideKtorfit(): Ktorfit {
     return Ktorfit.Builder()
-//        .baseUrl("https://2up-finance-service.site/api/v1/")
-        .baseUrl("http://192.168.1.11:3000/api/v1/")
+        .baseUrl("https://2up-finance-service.site/api/v1/")
+//        .baseUrl("http://192.168.1.11:3000/api/v1/")
         .httpClient(provideOkhttpClient())
-        .converterFactories(ResourceResponseConverterFactory())
-        .build()
+        .converterFactories(ResourceResponseConverterFactory()).build()
 }
 
 private inline fun provideOkhttpClient(): HttpClient {
@@ -34,8 +33,11 @@ private inline fun provideOkhttpClient(): HttpClient {
         install(ContentNegotiation) {
             json(Json { isLenient = true; ignoreUnknownKeys = true; prettyPrint = true })
         }
-        install(DefaultRequest){
-            headers.append(HttpHeaders.ContentType, "${ContentType.Application.Json.contentType}/${ContentType.Application.Json.contentSubtype}")
+        install(DefaultRequest) {
+            headers.append(
+                HttpHeaders.ContentType,
+                ContentType.Application.Json.contentType + "/" + ContentType.Application.Json.contentSubtype
+            )
         }
         install(Logging) {
             level = LogLevel.BODY

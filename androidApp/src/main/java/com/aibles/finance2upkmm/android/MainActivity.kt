@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import cafe.adriel.voyager.navigator.Navigator
 import com.aibles.authentication.presentation.ui.login.LoginScreen
+import com.aibles.authentication.presentation.ui.otp.OTPScreen
+import com.aibles.authentication.presentation.ui.register.RegisterScreen
 import com.aibles.finance2upkmm.Greeting
 
 class MainActivity : ComponentActivity() {

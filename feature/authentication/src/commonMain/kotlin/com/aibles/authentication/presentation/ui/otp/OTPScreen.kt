@@ -24,6 +24,7 @@ import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.painterResource
 
 import dev.icerock.moko.resources.desc.desc
+import io.github.aakira.napier.Napier
 
 class OTPScreen : Screen {
     @Composable
@@ -46,8 +47,7 @@ class OTPScreen : Screen {
         val countDownTimer = remember {
             object : CountDownTimer(61_000, 1000) {
 
-                override fun onTick(millisUntilFinished: Long) {
-                }
+                override fun onTick(millisUntilFinished: Long) {}
 
                 override fun onFinish() {
                     isVisibleResendButton.value = true
@@ -190,76 +190,40 @@ class OTPScreen : Screen {
 
         SideEffect {
             if (otpSendState.value.isSuccessful()) {
-//            Toast.makeText(
-//                context, otpSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
-//            ).show()
-
                 otpViewModel.clearStateOTP()
-//                navController.navigate(route = "LoginScreen")
-
             } else if (otpSendState.value.isError() && otpSendState.value.error != null) {
-
                 when (otpSendState.value.error?.errorCode ?: "nothing") {
                     "org.up.finance.exception.OtpNotFoundException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_expired.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                         isVisibleResendButton.value = true
                     }
 
                     "org.up.finance.exception.OtpBadRequestException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_fillOtp.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                     }
 
                     "org.up.finance.exception.EmailNotFoundException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_email_existed.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                     }
 
                     "org.up.finance.exception.UserActivatedException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_activated.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                         otpViewModel.clearStateOTP()
-//                    navController.navigate(route = "LoginScreen")
                     }
 
                     "org.up.finance.exception.xxx.MethodArgumentNotValidException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_format.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                     }
                 }
             }
             if (emailSendState.value.isSuccessful()) {
-//            Toast.makeText(
-//                context, emailSendState.value.data?.statusMessage, Toast.LENGTH_SHORT
-//            ).show()
                 otpViewModel.clearStateEmail()
             } else if (emailSendState.value.isError() && emailSendState.value.error != null) {
 
                 when (emailSendState.value.error?.errorCode ?: "nothing") {
                     "org.up.finance.exception.UserActivatedException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_activated.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                         otpViewModel.clearStateEmail()
-//                    navController.navigate(route = "LoginScreen")
                     }
 
                     "org.up.finance.exception.EmailNotFoundException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_email_existed.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                     }
 
                     "org.up.finance.exception.xxx.MethodArgumentNotValidException" -> {
-//                    Toast.makeText(
-//                        context, MR.strings.otp_error_format.desc().localized(), Toast.LENGTH_SHORT
-//                    ).show()
                     }
                 }
             }

@@ -7,6 +7,7 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.aibles.authentication.domain.entity.login.LoginResponseEntity
 import com.aibles.authentication.domain.usecase.LoginUseCase
 import com.aibles.finance2upkmm.data.remote.util.Resource
+import com.aibles.finance2upkmm.presentation.util.isValidEmail
 import com.aibles.finance2upkmm.presentation.util.isValidPassword
 import com.aibles.finance2upkmm.presentation.util.isValidUsername
 import dev.icerock.moko.resources.compose.localized
@@ -49,7 +50,7 @@ class LoginViewModel: ScreenModel, KoinComponent {
     private fun validateInput(accountNotExistErrorMsg: String, incorrectPasswordErrorMsg: String): Boolean {
         _loginUiState.value = loginUiState.value.copy(usernameError = "", passwordError = "")
         var isValid = true
-        if (!usernameInput.value.isValidUsername()) {
+        if (!usernameInput.value.isValidEmail()) {
             _loginUiState.value =
                 loginUiState.value.copy(usernameError = accountNotExistErrorMsg)
             isValid = false

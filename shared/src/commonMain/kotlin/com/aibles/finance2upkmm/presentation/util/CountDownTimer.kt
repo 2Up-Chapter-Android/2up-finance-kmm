@@ -25,9 +25,8 @@ abstract class CountDownTimer(
             }
 
             onFinish()
+            scope.cancel()
         }
-
-        scope.cancel()
     }
 
     fun cancel() {
