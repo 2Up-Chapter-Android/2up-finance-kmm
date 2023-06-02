@@ -11,10 +11,10 @@ data class LoginResponse(
 ) {
     @Serializable
     data class LoginResponseData(
-        val accessToken: String? = "nothing",
-        val accessTokenLifeTime: Int? = 0,
-        val refreshToken: String? = "nothing",
-        val refreshTokenLifeTime: Long? = 0,
-        val tokenType: String? = ""
+        val access_token: String? = "nothing",
+        val access_token_life_time: Int? = 0,
+        val refresh_token: String? = "nothing",
+        val refresh_token_life_time: Long? = 0,
+        val token_type: String? = ""
     )
 }

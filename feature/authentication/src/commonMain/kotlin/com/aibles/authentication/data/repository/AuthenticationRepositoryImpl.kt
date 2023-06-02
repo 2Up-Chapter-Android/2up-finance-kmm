@@ -13,7 +13,9 @@ import com.aibles.finance2upkmm.data.remote.util.Resource
 import com.aibles.finance2upkmm.data.remote.util.map
 import com.aibles.authentication.data.mapping.mapToDomain
 import com.aibles.authentication.data.remote.dto.login.LoginRequest
+import com.aibles.authentication.data.remote.dto.login.LoginResponse
 import com.aibles.finance2upkmm.data.remote.util.mapToResource
+import io.github.aakira.napier.Napier
 
 class AuthenticationRepositoryImpl(
     private val dataSource: AuthenticationDataSource,
@@ -21,8 +23,8 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun login(username: String, password: String): Resource<LoginResponseEntity> {
         val loginRequest = LoginRequest(password, username)
-//        val loginResponse: Resource<LoginResponseEntity> =
-//            dataSource.login(loginRequest).map { it.mapToDomain() }
+        val loginResponse =
+            dataSource.login(loginRequest).map { it.mapToDomain() }
 //        if (loginResponse.isSuccessful()) {
 //                HawkDataSource.saveAccessToken(
 //                    loginResponse.data?.data?.accessToken ?: HawkDataSource.HawkConst.DEFAULT_VALUE
@@ -31,12 +33,12 @@ class AuthenticationRepositoryImpl(
 //                    loginResponse.data?.data?.refreshToken ?: HawkDataSource.HawkConst.DEFAULT_VALUE
 //                )
 //        }
-        return dataSource.login(loginRequest).mapToResource().map { it.mapToDomain() }
+        return loginResponse
     }
 
     override suspend fun register(registerRequest: RegisterRequest): Resource<RegisterInfo> {
 
-        return dataSource.register(registerRequest).mapToResource()
+        return dataSource.register(registerRequest)
             .map {
             it.mapToDomain()
         }
@@ -44,7 +46,7 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun sendEmail(preOTPRequest: EmailRequest): Resource<EmailInfo> {
 
-        return dataSource.sendEmail(preOTPRequest).mapToResource()
+        return dataSource.sendEmail(preOTPRequest)
             .map {
                 it.mapToDomain()
             }
@@ -52,7 +54,7 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun sendOTP(otpRequest: OTPRequest): Resource<OTPInfo> {
 
-        return dataSource.sendOTP(otpRequest).mapToResource()
+        return dataSource.sendOTP(otpRequest)
             .map {
                 it.mapToDomain()
             }

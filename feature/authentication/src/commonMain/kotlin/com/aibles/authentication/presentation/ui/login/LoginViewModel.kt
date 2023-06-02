@@ -34,9 +34,8 @@ class LoginViewModel: ScreenModel, KoinComponent {
     private val _loginUiState = MutableStateFlow(LoginUIState())
     val loginUiState: StateFlow<LoginUIState> get() = _loginUiState
 
-    @Composable
-    fun login() {
-        if (!validateInput()) return
+    fun login(accountNotExistErrorMsg: String, incorrectPasswordErrorMsg: String) {
+        if (!validateInput(accountNotExistErrorMsg, incorrectPasswordErrorMsg)) return
         _loginUiState.value = loginUiState.value.copy(isLoading = true)
         coroutineScope.launch {
             delay(200)
@@ -47,19 +46,18 @@ class LoginViewModel: ScreenModel, KoinComponent {
         }
     }
 
-    @Composable
-    private fun validateInput(): Boolean {
+    private fun validateInput(accountNotExistErrorMsg: String, incorrectPasswordErrorMsg: String): Boolean {
         _loginUiState.value = loginUiState.value.copy(usernameError = "", passwordError = "")
         var isValid = true
         if (!usernameInput.value.isValidUsername()) {
             _loginUiState.value =
-                loginUiState.value.copy(usernameError = MR.strings.login_error_notExistAccount.desc().localized())
+                loginUiState.value.copy(usernameError = accountNotExistErrorMsg)
             isValid = false
         }
 
         if (!passwordInput.value.isValidPassword()) {
             _loginUiState.value =
-                loginUiState.value.copy(passwordError = MR.strings.login_error_incorrectPassword.desc().localized())
+                loginUiState.value.copy(passwordError = incorrectPasswordErrorMsg)
             isValid = false
         }
         return isValid

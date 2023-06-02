@@ -1,6 +1,6 @@
 package com.aibles.finance2upkmm.di
 
-import com.aibles.finance2upkmm.data.remote.util.MyOwnResponseConverterFactory
+import com.aibles.finance2upkmm.data.remote.util.ResourceResponseConverterFactory
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
@@ -22,9 +22,10 @@ val networkModule = module {
 
 private inline fun provideKtorfit(): Ktorfit {
     return Ktorfit.Builder()
-        .baseUrl("https://2up-finance-service.site/api/v1/")
+//        .baseUrl("https://2up-finance-service.site/api/v1/")
+        .baseUrl("http://192.168.1.11:3000/api/v1/")
         .httpClient(provideOkhttpClient())
-        .converterFactories(MyOwnResponseConverterFactory())
+        .converterFactories(ResourceResponseConverterFactory())
         .build()
 }
 

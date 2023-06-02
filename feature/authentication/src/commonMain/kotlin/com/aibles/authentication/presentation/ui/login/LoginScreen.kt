@@ -83,10 +83,11 @@ class LoginScreen : Screen {
         LaunchedEffect(key1 = loginState.value) {
             with(loginState.value) {
                 when {
-//                    isSuccessful() -> {
+                    isSuccessful() -> {
 //                        context.toast("Login Success")
 //                        navController.navigate("OTPScreen")
-//                    }
+                        Napier.d(tag = "TestLogin", message = loginState.value.data.toString())
+                    }
 //
 //                    isError() -> context.toast(error?.errorMessage ?: "")
                 }
@@ -165,11 +166,7 @@ class LoginScreen : Screen {
                                     interactionSource = interactionSource,
                                     indication = null
                                 ) {
-//                                    Toast.makeText(
-//                                        context,
-//                                        "Navigated to Forgot password",
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
+                                    Napier.d(tag = "TestLogin", message = "forgot pass")
                                 },
                             text = MR.strings.login_forgotPassword.desc().localized(),
                             fontSize = textSize_login_forgotPasswordTextButton,
@@ -179,13 +176,14 @@ class LoginScreen : Screen {
 
                     Spacer(modifier = Modifier.height(marginTop_login_loginButton))
 
-                    val onClickLogin = rememberSaveable { mutableStateOf(false) }
-                    if (onClickLogin.value) {
-                        onClickLogin.value = false
-                        viewModel.login()
-                    }
+                    val accountNotExistErrorMsg = MR.strings.login_error_notExistAccount.desc().localized()
+                    val incorrectPasswordErrorMsg = MR.strings.login_error_incorrectPassword.desc().localized()
                     Button(
-                        onClick = { onClickLogin.value = true },
+                        onClick = {
+                            viewModel.login(accountNotExistErrorMsg, incorrectPasswordErrorMsg)
+                            Napier.d(tag = "TestLogin", message = "call login")
+
+                                  },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(height_login_loginButton),

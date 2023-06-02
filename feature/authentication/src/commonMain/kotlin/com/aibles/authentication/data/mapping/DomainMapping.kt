@@ -58,11 +58,11 @@ private fun LoginResponse.LoginResponseData?.mapToDomain(): LoginResponseEntity.
 //        )
 //    } ?: LoginResponseEntity.LoginResponseData()
     return LoginResponseEntity.LoginResponseData(
-        this?.accessToken ?: "nothing",
-        this?.accessTokenLifeTime ?: 0,
-        this?.refreshToken ?: "nothing",
-        this?.refreshTokenLifeTime ?: 0,
-        this?.tokenType ?: ""
+        this?.access_token ?: "nothing",
+        this?.access_token_life_time ?: 0,
+        this?.refresh_token ?: "nothing",
+        this?.refresh_token_life_time ?: 0,
+        this?.token_type ?: ""
     )
 }
 
