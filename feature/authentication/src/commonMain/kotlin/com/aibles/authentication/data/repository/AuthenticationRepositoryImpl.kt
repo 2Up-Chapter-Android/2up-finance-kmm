@@ -1,5 +1,7 @@
 package com.aibles.authentication.data.repository
 
+import com.aibles.authentication.data.mapping.mapToDomain
+import com.aibles.authentication.data.remote.dto.login.LoginRequest
 import com.aibles.authentication.data.remote.service.AuthenticationDataSource
 import com.aibles.authentication.domain.entity.login.LoginResponseEntity
 import com.aibles.authentication.domain.entity.otp.EmailInfo
@@ -11,8 +13,7 @@ import com.aibles.authentication.domain.entity.register.RegisterRequest
 import com.aibles.authentication.domain.repository.AuthenticationRepository
 import com.aibles.finance2upkmm.data.remote.util.Resource
 import com.aibles.finance2upkmm.data.remote.util.map
-import com.aibles.authentication.data.mapping.mapToDomain
-import com.aibles.authentication.data.remote.dto.login.LoginRequest
+import com.aibles.finance2upkmm.data.remote.util.safeApiCall
 
 class AuthenticationRepositoryImpl(
     private val dataSource: AuthenticationDataSource,
@@ -20,29 +21,29 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun login(username: String, password: String): Resource<LoginResponseEntity> {
         val loginRequest = LoginRequest(password, username)
-        val loginResponse: Resource<LoginResponseEntity> =
-            dataSource.login(loginRequest).map { it.mapToDomain() }
-        if (loginResponse.isSuccessful()) {
+        val loginResponse = safeApiCall { dataSource.login(loginRequest) }.map { it.mapToDomain() }
+//        if (loginResponse.isSuccessful()) {
 //                HawkDataSource.saveAccessToken(
 //                    loginResponse.data?.data?.accessToken ?: HawkDataSource.HawkConst.DEFAULT_VALUE
 //                )
 //                HawkDataSource.saveRefreshToken(
 //                    loginResponse.data?.data?.refreshToken ?: HawkDataSource.HawkConst.DEFAULT_VALUE
 //                )
-        }
+//        }
         return loginResponse
     }
 
     override suspend fun register(registerRequest: RegisterRequest): Resource<RegisterInfo> {
 
-        return dataSource.register(registerRequest).map {
-            it.mapToDomain()
-        }
+        return safeApiCall { dataSource.register(registerRequest) }
+            .map {
+                it.mapToDomain()
+            }
     }
 
     override suspend fun sendEmail(preOTPRequest: EmailRequest): Resource<EmailInfo> {
 
-        return dataSource.sendEmail(preOTPRequest)
+        return safeApiCall { dataSource.sendEmail(preOTPRequest) }
             .map {
                 it.mapToDomain()
             }
@@ -50,7 +51,7 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun sendOTP(otpRequest: OTPRequest): Resource<OTPInfo> {
 
-        return dataSource.sendOTP(otpRequest)
+        return safeApiCall { dataSource.sendOTP(otpRequest) }
             .map {
                 it.mapToDomain()
             }

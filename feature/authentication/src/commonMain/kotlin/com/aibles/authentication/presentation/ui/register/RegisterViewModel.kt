@@ -18,19 +18,23 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class RegisterViewModel: ScreenModel, KoinComponent {
+class RegisterViewModel : ScreenModel, KoinComponent {
     private val registerUseCase: RegisterUseCase by inject()
 
     private val _registerState = MutableStateFlow<Resource<RegisterInfo>>(Resource.loading())
     val registerState: StateFlow<Resource<RegisterInfo>> get() = _registerState
 
     private val _registerUiState = MutableStateFlow(RegisterUiState())
-    val registerUiState: StateFlow<RegisterUiState>  = _registerUiState.asStateFlow()
+    val registerUiState: StateFlow<RegisterUiState> = _registerUiState.asStateFlow()
 
-
-    fun registerRequest() {
-
-        if (!isValidateInput()) return
+    fun registerRequest(
+        invalidUsernameErrorMsg: String,
+        invalidFullNameErrorMsg: String,
+        invalidEmailErrorMsg: String,
+        invalidPasswordErrorMsg: String,
+        invalidConfirmPasswordErrorMsg: String
+    ) {
+        if (!isValidateInput(invalidUsernameErrorMsg, invalidFullNameErrorMsg, invalidEmailErrorMsg, invalidPasswordErrorMsg, invalidConfirmPasswordErrorMsg)) return
 
         _registerUiState.value =
             registerUiState.value.copy(
@@ -38,17 +42,15 @@ class RegisterViewModel: ScreenModel, KoinComponent {
             )
 
         coroutineScope.launch {
-
             delay(200)
 
             val registerResponse = registerUseCase(
                 RegisterRequest(
                     username = registerUiState.value.usernameInput,
                     fullName = registerUiState.value.fullNameInput,
-                    email =  registerUiState.value.emailAddressInput,
+                    email = registerUiState.value.emailAddressInput,
                     password = registerUiState.value.passwordInput,
                     confirmPassword = registerUiState.value.confirmPasswordInput
-
                 )
             )
             _registerUiState.value =
@@ -58,7 +60,13 @@ class RegisterViewModel: ScreenModel, KoinComponent {
         }
     }
 
-    private fun isValidateInput(): Boolean {
+    private fun isValidateInput(
+        invalidUsernameErrorMsg: String,
+        invalidFullNameErrorMsg: String,
+        invalidEmailErrorMsg: String,
+        invalidPasswordErrorMsg: String,
+        invalidConfirmPasswordErrorMsg: String
+    ): Boolean {
 
         _registerUiState.value = registerUiState.value.copy(
             usernameError = "",
@@ -70,44 +78,35 @@ class RegisterViewModel: ScreenModel, KoinComponent {
         var isValid = true
         if (!registerUiState.value.usernameInput.isValidUsername()) {
             _registerUiState.value = registerUiState.value.copy(
-                usernameError = resourcesProvider.getString(
-                    R.string.register_error_invalid_username
-                )
+                usernameError = invalidUsernameErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.fullNameInput.isValidFullName()) {
-            _registerUiState.value =
-                registerUiState.value.copy(
-                    fullNameError = resourcesProvider.getString(R.string.register_error_invalid_full_name)
-                )
+            _registerUiState.value = registerUiState.value.copy(
+                fullNameError = invalidFullNameErrorMsg
+            )
             isValid = false
         }
 
         if (!registerUiState.value.emailAddressInput.isValidEmail()) {
             _registerUiState.value = registerUiState.value.copy(
-                emailAddressError = resourcesProvider.getString(
-                    R.string.register_error_invalid_email
-                )
+                emailAddressError = invalidEmailErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.passwordInput.isValidPassword()) {
             _registerUiState.value = registerUiState.value.copy(
-                passwordError = resourcesProvider.getString(
-                    R.string.register_error_invalid_password
-                )
+                passwordError = invalidPasswordErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.confirmPasswordInput.isValidPassword()) {
             _registerUiState.value = registerUiState.value.copy(
-                passwordConfirmError = resourcesProvider.getString(
-                    R.string.register_error_invalid_confirm_password
-                )
+                passwordConfirmError = invalidConfirmPasswordErrorMsg
             )
             isValid = false
         }
@@ -115,32 +114,22 @@ class RegisterViewModel: ScreenModel, KoinComponent {
     }
 
     fun onUsernameValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            usernameInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(usernameInput = text)
     }
 
     fun onFullNameValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            fullNameInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(fullNameInput = text)
     }
 
     fun onEmailAddressValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            emailAddressInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(emailAddressInput = text)
     }
 
     fun onPasswordValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            passwordInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(passwordInput = text)
     }
 
     fun onPasswordConfirmValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            confirmPasswordInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(confirmPasswordInput = text)
     }
 }

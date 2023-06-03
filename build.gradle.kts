@@ -12,7 +12,6 @@ buildscript {
     }
     dependencies {
         classpath(libs.bundles.plugins)
-//        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
     }
 }
 

@@ -53,12 +53,15 @@ import androidx.compose.ui.text.withStyle
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.aibles.authentication.presentation.theme.*
+import com.aibles.finance2upkmm.data.remote.util.HttpException
+import com.aibles.finance2upkmm.data.remote.util.NetworkException
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.desc.desc
+import io.github.aakira.napier.Napier
 
-class LoginScreen: Screen{
+class LoginScreen : Screen {
     @Composable
     override fun Content() {
         LoginScreen()
@@ -68,7 +71,7 @@ class LoginScreen: Screen{
     fun LoginScreen() {
         val focusManager = LocalFocusManager.current
         val interactionSource = remember { MutableInteractionSource() }
-        val viewModel = rememberScreenModel{ LoginViewModel() }
+        val viewModel = rememberScreenModel { LoginViewModel() }
         val usernameInput = viewModel.usernameInput.collectAsState()
         val passwordInput = viewModel.passwordInput.collectAsState()
         val loginState = viewModel.loginState.collectAsState()
@@ -77,12 +80,19 @@ class LoginScreen: Screen{
         LaunchedEffect(key1 = loginState.value) {
             with(loginState.value) {
                 when {
-//                    isSuccessful() -> {
-//                        context.toast("Login Success")
-//                        navController.navigate("OTPScreen")
-//                    }
-//
-//                    isError() -> context.toast(error?.errorMessage ?: "")
+                    isSuccessful() -> {
+                        Napier.d(tag = "TestLogin", message = loginState.value.data?.data?.accessToken ?: "nothing")
+                    }
+                    isError() -> {
+                        when(loginState.value.error ){
+                            is HttpException -> Napier.d(tag = "TestLogin", message = loginState.value.error?.errorMessage.toString())
+
+                            is NetworkException ->  Napier.d(tag = "TestLogin", message = "Mat mang roi")
+
+                            else -> Napier.d(tag = "TestLogin", message = loginState.value.error?.errorMessage.toString())
+                        }
+                    }
+
                 }
             }
         }
@@ -121,7 +131,7 @@ class LoginScreen: Screen{
                     LoginEditText(
                         text = usernameInput.value,
                         onTextChange = { viewModel.onUsernameValueChange(it) },
-                        keyboardOption = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardOption = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email),
                         trailingIcon = {
                             IconButton(onClick = { viewModel.onUsernameValueChange("") }) {
                                 Icon(
@@ -159,11 +169,7 @@ class LoginScreen: Screen{
                                     interactionSource = interactionSource,
                                     indication = null
                                 ) {
-//                                    Toast.makeText(
-//                                        context,
-//                                        "Navigated to Forgot password",
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
+                                    Napier.d(tag = "TestLogin", message = "forgot pass")
                                 },
                             text = MR.strings.login_forgotPassword.desc().localized(),
                             fontSize = textSize_login_forgotPasswordTextButton,
@@ -172,9 +178,12 @@ class LoginScreen: Screen{
                     }
 
                     Spacer(modifier = Modifier.height(marginTop_login_loginButton))
+
+                    val accountErrorMsg = MR.strings.register_error_invalid_email.desc().localized()
+                    val passwordErrorMsg = MR.strings.login_error_incorrectPassword.desc().localized()
                     Button(
                         onClick = {
-                            viewModel.login()
+                            viewModel.login(accountErrorMsg, passwordErrorMsg)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -207,8 +216,7 @@ class LoginScreen: Screen{
                                 interactionSource = interactionSource,
                                 indication = null
                             ) {
-//                                Toast.makeText(context, "Navigated to register", Toast.LENGTH_SHORT)
-//                                    .show()
+//                                Navigator(RegisterScreen())
                             }
                     )
                     Spacer(modifier = Modifier.height(marginBottom_login_registerTextButton))
