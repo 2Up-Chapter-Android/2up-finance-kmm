@@ -6,10 +6,10 @@ import com.aibles.authentication.domain.entity.register.RegisterInfo
 import com.aibles.authentication.domain.entity.register.RegisterRequest
 import com.aibles.authentication.domain.usecase.RegisterUseCase
 import com.aibles.finance2upkmm.data.remote.util.Resource
-import com.aibles.finance2upkmm.presentation.util.isValidEmail
-import com.aibles.finance2upkmm.presentation.util.isValidFullName
-import com.aibles.finance2upkmm.presentation.util.isValidPassword
-import com.aibles.finance2upkmm.presentation.util.isValidUsername
+import com.aibles.finance2upkmm.presentation.until.isValidEmail
+import com.aibles.finance2upkmm.presentation.until.isValidFullName
+import com.aibles.finance2upkmm.presentation.until.isValidPassword
+import com.aibles.finance2upkmm.presentation.until.isValidUsername
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +20,7 @@ import org.koin.core.component.inject
 
 class RegisterViewModel : ScreenModel, KoinComponent {
     private val registerUseCase: RegisterUseCase by inject()
+
 
     private val _registerState = MutableStateFlow<Resource<RegisterInfo>>(Resource.loading())
     val registerState: StateFlow<Resource<RegisterInfo>> get() = _registerState
@@ -34,7 +35,14 @@ class RegisterViewModel : ScreenModel, KoinComponent {
         invalidPasswordErrorMsg: String,
         invalidConfirmPasswordErrorMsg: String
     ) {
-        if (!isValidateInput(invalidUsernameErrorMsg, invalidFullNameErrorMsg, invalidEmailErrorMsg, invalidPasswordErrorMsg, invalidConfirmPasswordErrorMsg)) return
+        if (!isValidateInput(
+                invalidUsernameErrorMsg,
+                invalidFullNameErrorMsg,
+                invalidEmailErrorMsg,
+                invalidPasswordErrorMsg,
+                invalidConfirmPasswordErrorMsg
+            )
+        ) return
 
         _registerUiState.value =
             registerUiState.value.copy(
