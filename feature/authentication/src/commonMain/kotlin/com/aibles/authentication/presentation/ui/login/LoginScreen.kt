@@ -52,12 +52,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.aibles.authentication.presentation.theme.*
+import com.aibles.finance2upkmm.data.remote.util.HttpException
+import com.aibles.finance2upkmm.data.remote.util.NetworkException
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.desc.desc
+import io.github.aakira.napier.Napier
 
-class LoginScreen: Screen{
+class LoginScreen : Screen {
     @Composable
     override fun Content() {
         LoginScreen()
@@ -67,7 +71,7 @@ class LoginScreen: Screen{
     fun LoginScreen() {
         val focusManager = LocalFocusManager.current
         val interactionSource = remember { MutableInteractionSource() }
-        val viewModel = rememberScreenModel{ LoginViewModel() }
+        val viewModel = rememberScreenModel { LoginViewModel() }
         val usernameInput = viewModel.usernameInput.collectAsState()
         val passwordInput = viewModel.passwordInput.collectAsState()
         val loginState = viewModel.loginState.collectAsState()
@@ -76,12 +80,19 @@ class LoginScreen: Screen{
         LaunchedEffect(key1 = loginState.value) {
             with(loginState.value) {
                 when {
-//                    isSuccessful() -> {
-//                        context.toast("Login Success")
-//                        navController.navigate("OTPScreen")
-//                    }
-//
-//                    isError() -> context.toast(error?.errorMessage ?: "")
+                    isSuccessful() -> {
+                        Napier.d(tag = "TestLogin", message = loginState.value.data?.data?.accessToken ?: "nothing")
+                    }
+                    isError() -> {
+                        when(loginState.value.error ){
+                            is HttpException -> Napier.d(tag = "TestLogin", message = loginState.value.error?.errorMessage.toString())
+
+                            is NetworkException ->  Napier.d(tag = "TestLogin", message = "Mat mang roi")
+
+                            else -> Napier.d(tag = "TestLogin", message = loginState.value.error?.errorMessage.toString())
+                        }
+                    }
+
                 }
             }
         }
@@ -90,7 +101,7 @@ class LoginScreen: Screen{
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = dimensionResource(id = R.dimen.paddingHorizontal_login_parentView))
+                    .padding(horizontal = paddingHorizontal_login_parentView)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null
@@ -106,21 +117,21 @@ class LoginScreen: Screen{
                         painter = painterResource(MR.images.image_welcome_login),
                         contentDescription = "",
                         modifier = Modifier
-                            .width(dimensionResource(id = R.dimen.width_login_welcomeImage))
-                            .height(dimensionResource(id = R.dimen.height_login_welcomeImage))
-                            .padding(vertical = dimensionResource(id = R.dimen.paddingVertical_login_welcomeImage)),
+                            .width(width_login_welcomeImage)
+                            .height(height_login_welcomeImage)
+                            .padding(vertical = paddingVertical_login_welcomeImage),
                     )
 
                     Text(
                         text = MR.strings.login_welcomeTitle.desc().localized(),
-                        fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_welcomeTitle)
+                        fontSize = textSize_login_welcomeTitle
                     )
 
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginTop_login_usernameTextField)))
+                    Spacer(modifier = Modifier.height(marginTop_login_usernameTextField))
                     LoginEditText(
                         text = usernameInput.value,
                         onTextChange = { viewModel.onUsernameValueChange(it) },
-                        keyboardOption = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardOption = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email),
                         trailingIcon = {
                             IconButton(onClick = { viewModel.onUsernameValueChange("") }) {
                                 Icon(
@@ -138,7 +149,7 @@ class LoginScreen: Screen{
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginTop_login_passwordTextField)))
+                    Spacer(modifier = Modifier.height(marginTop_login_passwordTextField))
                     LoginPasswordEditText(
                         text = passwordInput.value,
                         onTextChange = { viewModel.onPasswordValueChange(it) },
@@ -150,7 +161,7 @@ class LoginScreen: Screen{
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginTop_login_forgotPassTextButton)))
+                    Spacer(modifier = Modifier.height(marginTop_login_forgotPassTextButton))
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
                         Text(
                             modifier = Modifier
@@ -158,34 +169,32 @@ class LoginScreen: Screen{
                                     interactionSource = interactionSource,
                                     indication = null
                                 ) {
-//                                    Toast.makeText(
-//                                        context,
-//                                        "Navigated to Forgot password",
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
+                                    Napier.d(tag = "TestLogin", message = "forgot pass")
                                 },
                             text = MR.strings.login_forgotPassword.desc().localized(),
-                            fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_forgotPasswordTextButton),
+                            fontSize = textSize_login_forgotPasswordTextButton,
                             color = colorResource(MR.colors.login_textButton),
-                            textAlign = TextAlign.End
-                        )
+                            textAlign = TextAlign.End)
                     }
 
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginTop_login_loginButton)))
+                    Spacer(modifier = Modifier.height(marginTop_login_loginButton))
+
+                    val accountErrorMsg = MR.strings.register_error_invalid_email.desc().localized()
+                    val passwordErrorMsg = MR.strings.login_error_incorrectPassword.desc().localized()
                     Button(
                         onClick = {
-                            viewModel.login()
+                            viewModel.login(accountErrorMsg, passwordErrorMsg)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(dimensionResource(id = R.dimen.height_login_loginButton)),
-                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.cornerRadius_login_loginButton)),
+                            .height(height_login_loginButton),
+                        shape = RoundedCornerShape(cornerRadius_login_loginButton),
                         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(MR.colors.login_loginButton)),
                         enabled = loginUIState.value.enableLoginButton
                     ) {
                         Text(
                             text = MR.strings.all_login.desc().localized(),
-                            fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_loginButton),
+                            fontSize = textSize_login_loginButton,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
                         )
@@ -201,17 +210,16 @@ class LoginScreen: Screen{
                                 append(MR.strings.all_signup.desc().localized())
                             }
                         },
-                        fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_registerTextButton),
+                        fontSize = textSize_login_registerTextButton,
                         modifier = Modifier
                             .clickable(
                                 interactionSource = interactionSource,
                                 indication = null
                             ) {
-                                Toast.makeText(context, "Navigated to register", Toast.LENGTH_SHORT)
-                                    .show()
+//                                Navigator(RegisterScreen())
                             }
                     )
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginBottom_login_registerTextButton)))
+                    Spacer(modifier = Modifier.height(marginBottom_login_registerTextButton))
                 }
             }
         }
@@ -227,9 +235,9 @@ class LoginScreen: Screen{
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.size_login_progressBar)),
+                    modifier = Modifier.size(size_login_progressBar),
                     color = colorResource(MR.colors.login_progressBar),
-                    strokeWidth = dimensionResource(id = R.dimen.progressBarStrokeWidth_login)
+                    strokeWidth = progressBarStrokeWidth_login
                 )
             }
         }
@@ -246,8 +254,8 @@ class LoginScreen: Screen{
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(
-                topEnd = dimensionResource(id = R.dimen.cornerRadius_login_loginTextField),
-                bottomStart = dimensionResource(id = R.dimen.cornerRadius_login_loginTextField)
+                topEnd = cornerRadius_login_loginTextField,
+                bottomStart = cornerRadius_login_loginTextField
             ),
             value = text,
             onValueChange = { onTextChange(it) },
@@ -257,11 +265,11 @@ class LoginScreen: Screen{
                         .alpha(ContentAlpha.medium),
                     text = hint,
                     color = Color.Black,
-                    fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_loginTextField)
+                    fontSize = textSize_login_loginTextField
                 )
             },
             textStyle = TextStyle(
-                fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_loginTextField)
+                fontSize = textSize_login_loginTextField
             ),
             singleLine = true,
             trailingIcon = {
@@ -295,8 +303,8 @@ class LoginScreen: Screen{
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(
-                topEnd = dimensionResource(id = R.dimen.cornerRadius_login_loginTextField),
-                bottomStart = dimensionResource(id = R.dimen.cornerRadius_login_loginTextField)
+                topEnd = cornerRadius_login_loginTextField,
+                bottomStart = cornerRadius_login_loginTextField
             ),
             value = text,
             onValueChange = { onTextChange(it) },
@@ -305,11 +313,11 @@ class LoginScreen: Screen{
                     modifier = Modifier.alpha(ContentAlpha.medium),
                     text = MR.strings.login_hint_password.desc().localized(),
                     color = Color.Black,
-                    fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_loginTextField)
+                    fontSize = textSize_login_loginTextField
                 )
             },
             textStyle = TextStyle(
-                fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_loginTextField)
+                fontSize = textSize_login_loginTextField
             ),
             singleLine = true,
             trailingIcon = {
@@ -346,13 +354,13 @@ class LoginScreen: Screen{
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = dimensionResource(id = R.dimen.paddingStart_login_loginErrorText))
+                .padding(start = paddingStart_login_loginErrorText)
         ) {
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.marginTop_login_loginErrorText)))
+            Spacer(modifier = Modifier.height(marginTop_login_loginErrorText))
             Text(
                 text = text,
                 fontWeight = FontWeight.Bold,
-                fontSize = fontSizeDimensionResource(id = R.dimen.textSize_login_loginErrorText),
+                fontSize = textSize_login_loginErrorText,
                 color = colorResource(MR.colors.login_errorText)
             )
         }

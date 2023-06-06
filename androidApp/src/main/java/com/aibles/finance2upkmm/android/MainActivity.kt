@@ -8,6 +8,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import cafe.adriel.voyager.navigator.Navigator
+import com.aibles.authentication.presentation.ui.login.LoginScreen
+import com.aibles.authentication.presentation.ui.otp.OTPScreen
+import com.aibles.authentication.presentation.ui.register.RegisterScreen
 import com.aibles.finance2upkmm.Greeting
 
 class MainActivity : ComponentActivity() {
@@ -19,22 +23,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    GreetingView(Greeting().greet())
+                    Navigator(screen = LoginScreen())
                 }
             }
         }
-    }
-}
-
-@Composable
-fun GreetingView(text: String) {
-    Text(text = text)
-}
-
-@Preview
-@Composable
-fun DefaultPreview() {
-    MyApplicationTheme {
-        GreetingView("Hello, Android!")
     }
 }

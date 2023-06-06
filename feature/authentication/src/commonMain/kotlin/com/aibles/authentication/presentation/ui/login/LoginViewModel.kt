@@ -7,6 +7,7 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.aibles.authentication.domain.entity.login.LoginResponseEntity
 import com.aibles.authentication.domain.usecase.LoginUseCase
 import com.aibles.finance2upkmm.data.remote.util.Resource
+import com.aibles.finance2upkmm.presentation.util.isValidEmail
 import com.aibles.finance2upkmm.presentation.util.isValidPassword
 import com.aibles.finance2upkmm.presentation.util.isValidUsername
 import dev.icerock.moko.resources.compose.localized
@@ -14,6 +15,7 @@ import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -28,37 +30,35 @@ class LoginViewModel: ScreenModel, KoinComponent {
     val passwordInput: StateFlow<String> get() = _passwordInput
 
     private val _loginState = MutableStateFlow<Resource<LoginResponseEntity>>(Resource.loading())
-    val loginState: StateFlow<Resource<LoginResponseEntity>> get() = _loginState
+    val loginState = _loginState.asStateFlow()
 
     private val _loginUiState = MutableStateFlow(LoginUIState())
     val loginUiState: StateFlow<LoginUIState> get() = _loginUiState
 
-    @Composable
-    fun login() {
-        if (!validateInput()) return
+    fun login(accountNotExistErrorMsg: String, incorrectPasswordErrorMsg: String) {
+        if (!validateInput(accountNotExistErrorMsg, incorrectPasswordErrorMsg)) return
         _loginUiState.value = loginUiState.value.copy(isLoading = true)
         coroutineScope.launch {
             delay(200)
             val loginResponse = loginUseCase(usernameInput.value, passwordInput.value)
-            _loginUiState.value = loginUiState.value.copy(isLoading = loginResponse.isLoading())
+            _loginUiState.value = loginUiState.value.copy(isLoading = false)
             _loginState.tryEmit(loginResponse)
 
         }
     }
 
-    @Composable
-    private fun validateInput(): Boolean {
+    private fun validateInput(accountNotExistErrorMsg: String, incorrectPasswordErrorMsg: String): Boolean {
         _loginUiState.value = loginUiState.value.copy(usernameError = "", passwordError = "")
         var isValid = true
-        if (!usernameInput.value.isValidUsername()) {
+        if (!usernameInput.value.isValidEmail()) {
             _loginUiState.value =
-                loginUiState.value.copy(usernameError = MR.strings.login_error_notExistAccount.desc().localized())
+                loginUiState.value.copy(usernameError = accountNotExistErrorMsg)
             isValid = false
         }
 
         if (!passwordInput.value.isValidPassword()) {
             _loginUiState.value =
-                loginUiState.value.copy(passwordError = MR.strings.login_error_incorrectPassword.desc().localized())
+                loginUiState.value.copy(passwordError = incorrectPasswordErrorMsg)
             isValid = false
         }
         return isValid

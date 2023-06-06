@@ -1,28 +1,23 @@
-package com.finance2up.authentication.presentation.ui.otp
+package com.aibles.authentication.presentation.ui.otp
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.aibles.finance.data.remote.util.Resource
-import com.finance2up.authentication.domain.entity.otp.EmailInfo
-import com.finance2up.authentication.domain.entity.otp.OTPInfo
-import com.finance2up.authentication.domain.entity.otp.OTPRequest
-import com.finance2up.authentication.domain.entity.otp.EmailRequest
-import com.finance2up.authentication.domain.usecase.SendOTPUseCase
-import com.finance2up.authentication.domain.usecase.SendEmailUsecase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
+import com.aibles.authentication.domain.entity.otp.EmailInfo
+import com.aibles.authentication.domain.entity.otp.EmailRequest
+import com.aibles.authentication.domain.entity.otp.OTPInfo
+import com.aibles.authentication.domain.entity.otp.OTPRequest
+import com.aibles.authentication.domain.usecase.SendEmailUseCase
+import com.aibles.authentication.domain.usecase.SendOTPUseCase
+import com.aibles.finance2upkmm.data.remote.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@HiltViewModel
-class OTPViewModel @Inject constructor(
-    private val sendEmailUsecase: SendEmailUsecase, private val sendOTPUseCase: SendOTPUseCase
-
-) : ViewModel() {
-
+class OTPViewModel: ScreenModel, KoinComponent {
+    private val sendEmailUsecase: SendEmailUseCase by inject()
+    private val sendOTPUseCase: SendOTPUseCase by inject()
 
     private val _otpSendState = MutableStateFlow<Resource<OTPInfo>>(Resource.loading())
     val otpSendState: StateFlow<Resource<OTPInfo>> get() = _otpSendState
@@ -59,7 +54,7 @@ class OTPViewModel @Inject constructor(
 
     fun sendOTP() {
         _otpUIState.value = otpUIState.value.copy(isLoading = true)
-        viewModelScope.launch(Dispatchers.Main) {
+        coroutineScope.launch {
             val response = sendOTPUseCase(
                 OTPRequest(
                     email = "abc@gmail.com",
@@ -68,17 +63,13 @@ class OTPViewModel @Inject constructor(
             )
             _otpUIState.value = otpUIState.value.copy(isLoading = response.isLoading())
             _otpSendState.tryEmit(response)
-
-            Log.d(
-                "check_response", "--- $response"
-            )
         }
     }
 
     fun resendEmail() {
         _otpUIState.value = otpUIState.value.copy(isLoading = true)
 
-        viewModelScope.launch(Dispatchers.Main) {
+        coroutineScope.launch{
             val response = sendEmailUsecase(
                 EmailRequest(
                     email = "abc@gmail.com",
@@ -87,7 +78,6 @@ class OTPViewModel @Inject constructor(
             _otpUIState.value = otpUIState.value.copy(isLoading = response.isLoading())
 
             _emailSendState.tryEmit(response)
-            Log.d("check_response", "--- $response")
         }
     }
 

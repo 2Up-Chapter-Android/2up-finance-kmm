@@ -1,70 +1,72 @@
-package com.finance2up.authentication.presentation.ui.register
+package com.aibles.authentication.presentation.ui.register
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.aibles.finance.data.remote.util.Resource
-import com.aibles.finance.presentation.utils.ResourcesProvider
-import com.aibles.finance.utils.*
-import com.finance2up.authentication.R
-import com.finance2up.authentication.domain.entity.register.RegisterInfo
-import com.finance2up.authentication.domain.entity.register.RegisterRequest
-import com.finance2up.authentication.domain.usecase.RegisterUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
+import com.aibles.authentication.domain.entity.register.RegisterInfo
+import com.aibles.authentication.domain.entity.register.RegisterRequest
+import com.aibles.authentication.domain.usecase.RegisterUseCase
+import com.aibles.finance2upkmm.data.remote.util.Resource
+import com.aibles.finance2upkmm.presentation.util.isValidEmail
+import com.aibles.finance2upkmm.presentation.util.isValidFullName
+import com.aibles.finance2upkmm.presentation.util.isValidPassword
+import com.aibles.finance2upkmm.presentation.util.isValidUsername
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-@HiltViewModel
-class RegisterViewModel @Inject constructor(
-    private var registerUseCase: RegisterUseCase,
-    private val resourcesProvider: ResourcesProvider,
-) :
-    ViewModel() {
+class RegisterViewModel : ScreenModel, KoinComponent {
+    private val registerUseCase: RegisterUseCase by inject()
 
     private val _registerState = MutableStateFlow<Resource<RegisterInfo>>(Resource.loading())
     val registerState: StateFlow<Resource<RegisterInfo>> get() = _registerState
 
     private val _registerUiState = MutableStateFlow(RegisterUiState())
-    val registerUiState: StateFlow<RegisterUiState>  = _registerUiState.asStateFlow()
+    val registerUiState: StateFlow<RegisterUiState> = _registerUiState.asStateFlow()
 
-
-    fun registerRequest() {
-
-        if (!isValidateInput()) return
+    fun registerRequest(
+        invalidUsernameErrorMsg: String,
+        invalidFullNameErrorMsg: String,
+        invalidEmailErrorMsg: String,
+        invalidPasswordErrorMsg: String,
+        invalidConfirmPasswordErrorMsg: String
+    ) {
+        if (!isValidateInput(invalidUsernameErrorMsg, invalidFullNameErrorMsg, invalidEmailErrorMsg, invalidPasswordErrorMsg, invalidConfirmPasswordErrorMsg)) return
 
         _registerUiState.value =
             registerUiState.value.copy(
                 isLoading = true
             )
 
-        viewModelScope.launch(Dispatchers.Main) {
-
+        coroutineScope.launch {
             delay(200)
 
             val registerResponse = registerUseCase(
                 RegisterRequest(
                     username = registerUiState.value.usernameInput,
                     fullName = registerUiState.value.fullNameInput,
-                    email =  registerUiState.value.emailAddressInput,
+                    email = registerUiState.value.emailAddressInput,
                     password = registerUiState.value.passwordInput,
                     confirmPassword = registerUiState.value.confirmPasswordInput
-
                 )
             )
             _registerUiState.value =
                 registerUiState.value.copy(isLoading = registerResponse.isLoading())
             _registerState.tryEmit(registerResponse)
 
-            Log.d("check_response", "--- $registerResponse")
         }
     }
 
-    private fun isValidateInput(): Boolean {
+    private fun isValidateInput(
+        invalidUsernameErrorMsg: String,
+        invalidFullNameErrorMsg: String,
+        invalidEmailErrorMsg: String,
+        invalidPasswordErrorMsg: String,
+        invalidConfirmPasswordErrorMsg: String
+    ): Boolean {
 
         _registerUiState.value = registerUiState.value.copy(
             usernameError = "",
@@ -76,44 +78,35 @@ class RegisterViewModel @Inject constructor(
         var isValid = true
         if (!registerUiState.value.usernameInput.isValidUsername()) {
             _registerUiState.value = registerUiState.value.copy(
-                usernameError = resourcesProvider.getString(
-                    R.string.register_error_invalid_username
-                )
+                usernameError = invalidUsernameErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.fullNameInput.isValidFullName()) {
-            _registerUiState.value =
-                registerUiState.value.copy(
-                    fullNameError = resourcesProvider.getString(R.string.register_error_invalid_full_name)
-                )
+            _registerUiState.value = registerUiState.value.copy(
+                fullNameError = invalidFullNameErrorMsg
+            )
             isValid = false
         }
 
         if (!registerUiState.value.emailAddressInput.isValidEmail()) {
             _registerUiState.value = registerUiState.value.copy(
-                emailAddressError = resourcesProvider.getString(
-                    R.string.register_error_invalid_email
-                )
+                emailAddressError = invalidEmailErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.passwordInput.isValidPassword()) {
             _registerUiState.value = registerUiState.value.copy(
-                passwordError = resourcesProvider.getString(
-                    R.string.register_error_invalid_password
-                )
+                passwordError = invalidPasswordErrorMsg
             )
             isValid = false
         }
 
         if (!registerUiState.value.confirmPasswordInput.isValidPassword()) {
             _registerUiState.value = registerUiState.value.copy(
-                passwordConfirmError = resourcesProvider.getString(
-                    R.string.register_error_invalid_confirm_password
-                )
+                passwordConfirmError = invalidConfirmPasswordErrorMsg
             )
             isValid = false
         }
@@ -121,32 +114,22 @@ class RegisterViewModel @Inject constructor(
     }
 
     fun onUsernameValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            usernameInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(usernameInput = text)
     }
 
     fun onFullNameValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            fullNameInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(fullNameInput = text)
     }
 
     fun onEmailAddressValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            emailAddressInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(emailAddressInput = text)
     }
 
     fun onPasswordValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            passwordInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(passwordInput = text)
     }
 
     fun onPasswordConfirmValueChange(text: String) {
-        _registerUiState.value = registerUiState.value.copy(
-            confirmPasswordInput = text,
-        )
+        _registerUiState.value = registerUiState.value.copy(confirmPasswordInput = text)
     }
 }
