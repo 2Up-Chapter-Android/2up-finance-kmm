@@ -17,14 +17,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
-import com.aibles.finance2upkmm.presentation.util.CountDownTimer
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.aibles.authentication.presentation.navigation.SharedScreen
+import com.aibles.finance2upkmm.presentation.until.CountDownTimer
 import com.aibles.authentication.presentation.theme.*
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.painterResource
 
 import dev.icerock.moko.resources.desc.desc
-import io.github.aakira.napier.Napier
 
 class OTPScreen : Screen {
     @Composable
@@ -35,12 +38,9 @@ class OTPScreen : Screen {
     @Composable
     fun OTPScreen() {
         val otpViewModel: OTPViewModel = rememberScreenModel { OTPViewModel() }
-
         val otpUIState = otpViewModel.otpUIState.collectAsState()
         val otpSendState = otpViewModel.otpSendState.collectAsState()
-
         val emailSendState = otpViewModel.emailSendState.collectAsState()
-
         val isVisibleResendButton = remember {
             mutableStateOf(false)
         }
@@ -54,6 +54,8 @@ class OTPScreen : Screen {
                 }
             }
         }
+        val navigator = LocalNavigator.currentOrThrow
+        val loginScreen = rememberScreen(SharedScreen.LoginScreen)
 
         LaunchedEffect(key1 = Unit) {
             countDownTimer.start()
@@ -191,6 +193,7 @@ class OTPScreen : Screen {
         SideEffect {
             if (otpSendState.value.isSuccessful()) {
                 otpViewModel.clearStateOTP()
+                navigator.push(loginScreen)
             } else if (otpSendState.value.isError() && otpSendState.value.error != null) {
                 when (otpSendState.value.error?.errorCode ?: "nothing") {
                     "org.up.finance.exception.OtpNotFoundException" -> {
@@ -205,6 +208,7 @@ class OTPScreen : Screen {
 
                     "org.up.finance.exception.UserActivatedException" -> {
                         otpViewModel.clearStateOTP()
+                        navigator.push(loginScreen)
                     }
 
                     "org.up.finance.exception.xxx.MethodArgumentNotValidException" -> {
@@ -218,6 +222,7 @@ class OTPScreen : Screen {
                 when (emailSendState.value.error?.errorCode ?: "nothing") {
                     "org.up.finance.exception.UserActivatedException" -> {
                         otpViewModel.clearStateEmail()
+                        navigator.push(loginScreen)
                     }
 
                     "org.up.finance.exception.EmailNotFoundException" -> {

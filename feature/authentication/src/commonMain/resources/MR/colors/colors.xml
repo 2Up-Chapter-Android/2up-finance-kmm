@@ -5,8 +5,9 @@
     <color name="login_progressBar">#FF0000</color>
     <color name="login_errorText">#FF5B5E</color>
 
+<!--    <color name="canvas_drawCircle_register">#6B3D88</color>-->
     <color name="canvas_drawCircle_register">#6B3D88</color>
-    <color name="canvas_drawRect_register">#FFFAADAD</color>
+    <color name="canvas_drawRect_register">#FFB7C5</color>
     <color name="float_button_register">#6B3D88</color>
 
 </resources>
