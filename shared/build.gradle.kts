@@ -4,6 +4,8 @@ plugins {
     kotlin("plugin.serialization")
     id("de.jensklingenberg.ktorfit") version "1.0.0"
     id("com.google.devtools.ksp") version "1.8.0-1.0.9"
+    id("org.jetbrains.compose")
+    id("com.squareup.sqldelight")
 }
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
@@ -11,18 +13,17 @@ configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
 }
 
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(11))
     }
-    id("org.jetbrains.compose")
-    id("com.squareup.sqldelight")
 }
 
 kotlin {
+    jvm("desktop")
     android()
     
     listOf(

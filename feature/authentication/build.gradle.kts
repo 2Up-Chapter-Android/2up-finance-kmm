@@ -13,7 +13,7 @@ configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
 }
 
 java {
@@ -24,7 +24,7 @@ java {
 
 kotlin {
     android()
-    
+    jvm("desktop")
     listOf(
         iosX64(),
         iosArm64(),
@@ -90,6 +90,13 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+        val desktopMain by getting {
+            kotlin.srcDirs("src/jvmMain/kotlin")
+            dependsOn(commonMain)
+            dependencies {
+
+            }
+        }
     }
 }
 
@@ -105,5 +112,13 @@ dependencies {
     add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
     add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
     add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+
+    add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspDesktop", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspIosArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+//    add("kspJs", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
     add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
 }
