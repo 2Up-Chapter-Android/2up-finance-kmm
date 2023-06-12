@@ -6,10 +6,10 @@ import com.aibles.authentication.domain.entity.register.RegisterInfo
 import com.aibles.authentication.domain.entity.register.RegisterRequest
 import com.aibles.authentication.domain.usecase.RegisterUseCase
 import com.aibles.finance2upkmm.data.remote.util.Resource
-import com.aibles.finance2upkmm.presentation.until.isValidEmail
-import com.aibles.finance2upkmm.presentation.until.isValidFullName
-import com.aibles.finance2upkmm.presentation.until.isValidPassword
-import com.aibles.finance2upkmm.presentation.until.isValidUsername
+import com.aibles.finance2upkmm.presentation.util.isValidEmail
+import com.aibles.finance2upkmm.presentation.util.isValidFullName
+import com.aibles.finance2upkmm.presentation.util.isValidPassword
+import com.aibles.finance2upkmm.presentation.util.isValidUsername
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -55,10 +55,10 @@ class RegisterViewModel : ScreenModel, KoinComponent {
             val registerResponse = registerUseCase(
                 RegisterRequest(
                     username = registerUiState.value.usernameInput,
-                    fullName = registerUiState.value.fullNameInput,
+                    full_name = registerUiState.value.fullNameInput,
                     email = registerUiState.value.emailAddressInput,
                     password = registerUiState.value.passwordInput,
-                    confirmPassword = registerUiState.value.confirmPasswordInput
+                    confirm_password = registerUiState.value.confirmPasswordInput
                 )
             )
             _registerUiState.value =

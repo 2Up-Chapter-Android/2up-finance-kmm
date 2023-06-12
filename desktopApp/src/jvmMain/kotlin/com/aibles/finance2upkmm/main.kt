@@ -5,9 +5,8 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
 import cafe.adriel.voyager.navigator.Navigator
 import com.aibles.authentication.di.authenticationModule
-import com.aibles.authentication.di.navigationModule
 import com.aibles.authentication.presentation.ui.login.LoginScreen
-import com.aibles.finance2upkmm.di.networkModule
+import com.aibles.finance2upkmm.di.sharedModule
 import org.koin.core.context.KoinContextHandler
 import org.koin.core.context.startKoin
 
@@ -19,9 +18,8 @@ fun main() =  singleWindowApplication (
         startKoin {
             modules(
                 listOf(
-                    networkModule,
+                    sharedModule,
                     authenticationModule,
-                    navigationModule
                 )
             )
         }

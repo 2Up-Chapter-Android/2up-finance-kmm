@@ -24,12 +24,18 @@ work-runtime-ktx = "2.8.0"
 desugar-jdk-libs = "2.0.2"
 sqldelight = "1.5.5"
 
+#Android Libraries
+hawk = "2.0.1"
+#Desktop Libraries
+credentialSecureStorage = "1.0.0"
+
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "plugin-kotlin" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "plugin-kotlin" }
 plugin-gver = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "plugin-gver" }
 plugin-resource-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "mobile-kotlin-resource"}
+plugin-sqldelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight"}
 
 compose-resource = { module = "dev.icerock.moko:resources-compose", version.ref = "mobile-kotlin-resource"}
 
@@ -75,7 +81,13 @@ sqldelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extension
 sqldelight-driver-ios = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-driver-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-driver-desktop = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+
+#Android Libraries
+hawk = { module = "com.orhanobut:hawk", version.ref = "hawk" }
+#Desktop Libraries
+credentialSecureStorage = { module = "com.microsoft:credential-secure-storage", version.ref = "credentialSecureStorage"}
+
 [bundles]
-plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver", "plugin-resource-generator"]
+plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver", "plugin-resource-generator", "plugin-sqldelight"]
 compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "activity-compose"]
 sqldelight-common = ["sqldelight-runtime", "sqldelight-coroutines"]

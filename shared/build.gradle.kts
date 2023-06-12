@@ -13,12 +13,12 @@ configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -73,6 +73,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(libs.hawk)
+                api(libs.koin.core)
                 implementation(libs.napier)
                 //Network
                 implementation(libs.ktor.client.okhttp)
@@ -90,6 +92,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {//Network
                 implementation(libs.ktor.client.ios)
+                api(libs.koin.core)
                 implementation(libs.sqldelight.driver.ios)
             }
         }
@@ -108,6 +111,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(libs.sqldelight.driver.desktop)
+                implementation(libs.credentialSecureStorage)
             }
         }
     }

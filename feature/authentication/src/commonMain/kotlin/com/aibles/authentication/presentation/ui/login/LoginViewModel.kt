@@ -5,8 +5,8 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.aibles.authentication.domain.entity.login.LoginResponseEntity
 import com.aibles.authentication.domain.usecase.LoginUseCase
 import com.aibles.finance2upkmm.data.remote.util.Resource
-import com.aibles.finance2upkmm.presentation.until.isValidEmail
-import com.aibles.finance2upkmm.presentation.until.isValidPassword
+import com.aibles.finance2upkmm.presentation.util.isValidEmail
+import com.aibles.finance2upkmm.presentation.util.isValidPassword
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -11,25 +11,31 @@ import com.aibles.authentication.domain.entity.otp.OTPRequest
 import com.aibles.authentication.domain.entity.register.RegisterInfo
 import com.aibles.authentication.domain.entity.register.RegisterRequest
 import com.aibles.authentication.domain.repository.AuthenticationRepository
+import com.aibles.finance2upkmm.data.local.SecureStorageConst
+import com.aibles.finance2upkmm.data.local.SecureStorageKey
+import com.aibles.finance2upkmm.data.local.SecureStorageWrapper
 import com.aibles.finance2upkmm.data.remote.util.Resource
 import com.aibles.finance2upkmm.data.remote.util.map
 import com.aibles.finance2upkmm.data.remote.util.safeApiCall
 
 class AuthenticationRepositoryImpl(
     private val dataSource: AuthenticationDataSource,
+    private val secureStorageWrapperImpl: SecureStorageWrapper
 ) : AuthenticationRepository {
 
     override suspend fun login(username: String, password: String): Resource<LoginResponseEntity> {
         val loginRequest = LoginRequest(password, username)
         val loginResponse = safeApiCall { dataSource.login(loginRequest) }.map { it.mapToDomain() }
-//        if (loginResponse.isSuccessful()) {
-//                HawkDataSource.saveAccessToken(
-//                    loginResponse.data?.data?.accessToken ?: HawkDataSource.HawkConst.DEFAULT_VALUE
-//                )
-//                HawkDataSource.saveRefreshToken(
-//                    loginResponse.data?.data?.refreshToken ?: HawkDataSource.HawkConst.DEFAULT_VALUE
-//                )
-//        }
+        if (loginResponse.isSuccessful()) {
+                secureStorageWrapperImpl.saveValue(
+                    SecureStorageKey.ACCESS_TOKEN,
+                    loginResponse.data?.data?.accessToken ?: SecureStorageConst.DEFAULT_VALUE
+                )
+            secureStorageWrapperImpl.saveValue(
+                SecureStorageKey.REFRESH_TOKEN,
+                loginResponse.data?.data?.refreshToken ?: SecureStorageConst.DEFAULT_VALUE
+                )
+        }
         return loginResponse
     }
 

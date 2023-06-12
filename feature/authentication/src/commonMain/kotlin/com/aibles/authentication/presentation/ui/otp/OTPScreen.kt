@@ -22,7 +22,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.aibles.authentication.presentation.navigation.SharedScreen
-import com.aibles.finance2upkmm.presentation.until.CountDownTimer
+import com.aibles.finance2upkmm.presentation.util.CountDownTimer
 import com.aibles.authentication.presentation.theme.*
 import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.painterResource

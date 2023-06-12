@@ -353,7 +353,7 @@ class RegisterScreen : Screen {
                             interactionSource = interactionSource,
                             indication = null
                         ) {
-                          navigator.push(loginScreen)
+                          navigator.pop()
                         },
                 )
                 Spacer(modifier = Modifier.height(margin_register_progress))
