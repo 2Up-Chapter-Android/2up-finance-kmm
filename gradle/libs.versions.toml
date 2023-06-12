@@ -26,6 +26,8 @@ sqldelight = "1.5.5"
 
 #Android Libraries
 hawk = "2.0.1"
+#Desktop Libraries
+credentialSecureStorage = "1.0.0"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
@@ -82,6 +84,8 @@ sqldelight-driver-desktop = { module = "com.squareup.sqldelight:sqlite-driver", 
 
 #Android Libraries
 hawk = { module = "com.orhanobut:hawk", version.ref = "hawk" }
+#Desktop Libraries
+credentialSecureStorage = { module = "com.microsoft:credential-secure-storage", version.ref = "credentialSecureStorage"}
 
 [bundles]
 plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver", "plugin-resource-generator", "plugin-sqldelight"]

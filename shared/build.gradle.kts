@@ -111,6 +111,7 @@ kotlin {
             dependsOn(commonMain)
             dependencies {
                 implementation(libs.sqldelight.driver.desktop)
+                implementation(libs.credentialSecureStorage)
             }
         }
     }
