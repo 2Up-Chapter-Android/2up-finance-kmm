@@ -9,7 +9,7 @@ import com.aibles.authentication.domain.usecase.SendOTPUseCase
 import org.koin.dsl.module
 
 val authenticationDomainModule = module {
-    single<AuthenticationRepository> { AuthenticationRepositoryImpl(get()) }
+    single<AuthenticationRepository> { AuthenticationRepositoryImpl(get(), get()) }
     factory { LoginUseCase(get()) }
     factory { RegisterUseCase(get()) }
     factory { SendEmailUseCase(get()) }

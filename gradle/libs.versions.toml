@@ -23,6 +23,9 @@ coil = "2.2.2"
 work-runtime-ktx = "2.8.0"
 desugar-jdk-libs = "2.0.2"
 
+#Android Libraries
+hawk = "2.0.1"
+
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "plugin-kotlin" }
@@ -67,6 +70,9 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+
+#Android Libraries
+hawk = { module = "com.orhanobut:hawk", version.ref = "hawk" }
 
 [bundles]
 plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver", "plugin-resource-generator"]

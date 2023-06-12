@@ -56,7 +56,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.hawk)
+                api(libs.koin.core)
+            }
+        }
         val androidUnitTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -68,6 +73,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {//Network
                 implementation(libs.ktor.client.ios)
+                api(libs.koin.core)
             }
         }
         val iosX64Test by getting

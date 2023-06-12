@@ -1,5 +1,6 @@
 package com.aibles.authentication.domain.entity.login
 
+import com.aibles.finance2upkmm.data.local.SecureStorageConst
 import kotlinx.serialization.Serializable
 
 
@@ -11,9 +12,9 @@ data class LoginResponseEntity(
 ){
     @Serializable
     data class LoginResponseData(
-        val accessToken: String? = "nothing",
+        val accessToken: String? = SecureStorageConst.DEFAULT_VALUE,
         val accessTokenLifeTime: Int? = 0,
-        val refreshToken: String? = "nothing",
+        val refreshToken: String? = SecureStorageConst.DEFAULT_VALUE,
         val refreshTokenLifeTime: Long? = 0,
         val tokenType: String? = ""
     )

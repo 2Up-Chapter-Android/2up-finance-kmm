@@ -49,5 +49,5 @@ dependencies {
     implementation(libs.koin.android)
     //Navigation
     implementation(libs.voyager.navigator)
-
+    implementation(libs.hawk)
 }
