@@ -51,7 +51,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.aibles.authentication.presentation.navigation.SharedScreen
 import com.aibles.authentication.presentation.theme.*
 import com.aibles.finance2upkmm.data.remote.util.HttpException
 import com.aibles.finance2upkmm.data.remote.util.NetworkException
@@ -76,6 +80,8 @@ class LoginScreen : Screen {
         val passwordInput = viewModel.passwordInput.collectAsState()
         val loginState = viewModel.loginState.collectAsState()
         val loginUIState = viewModel.loginUiState.collectAsState()
+        val navigator = LocalNavigator.currentOrThrow
+        val registerScreen = rememberScreen(SharedScreen.RegisterScreen)
 
         LaunchedEffect(key1 = loginState.value) {
             with(loginState.value) {
@@ -216,7 +222,7 @@ class LoginScreen : Screen {
                                 interactionSource = interactionSource,
                                 indication = null
                             ) {
-//                                Navigator(RegisterScreen())
+                                navigator.push(registerScreen)
                             }
                     )
                     Spacer(modifier = Modifier.height(marginBottom_login_registerTextButton))
