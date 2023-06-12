@@ -22,6 +22,7 @@ accompanist = "0.28.0"
 coil = "2.2.2"
 work-runtime-ktx = "2.8.0"
 desugar-jdk-libs = "2.0.2"
+sqldelight = "1.5.5"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
@@ -68,6 +69,13 @@ accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiper
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 
+#sqldelight
+sqldelight-runtime = { module = "com.squareup.sqldelight:runtime", version.ref = "sqldelight" }
+sqldelight-coroutines = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-driver-ios = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-driver-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-driver-desktop = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 [bundles]
 plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver", "plugin-resource-generator"]
 compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "activity-compose"]
+sqldelight-common = ["sqldelight-runtime", "sqldelight-coroutines"]
