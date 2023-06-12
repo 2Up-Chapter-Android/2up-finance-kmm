@@ -4,6 +4,8 @@ plugins {
     kotlin("plugin.serialization")
     id("de.jensklingenberg.ktorfit") version "1.0.0"
     id("com.google.devtools.ksp") version "1.8.0-1.0.9"
+    id("org.jetbrains.compose")
+    id("com.squareup.sqldelight")
 }
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
@@ -16,11 +18,12 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 kotlin {
+    jvm("desktop")
     android()
     
     listOf(
@@ -49,6 +52,18 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 // DI
                 api(libs.koin.core)
+                // database
+                implementation(libs.sqldelight.runtime)
+
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.materialIconsExtended)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
+
+                implementation(compose.ui)
+                implementation(compose.runtime)
             }
         }
         val commonTest by getting {
@@ -60,6 +75,10 @@ kotlin {
             dependencies {
                 implementation(libs.hawk)
                 api(libs.koin.core)
+                implementation(libs.napier)
+                //Network
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.sqldelight.driver.android)
             }
         }
         val androidUnitTest by getting
@@ -74,6 +93,7 @@ kotlin {
             dependencies {//Network
                 implementation(libs.ktor.client.ios)
                 api(libs.koin.core)
+                implementation(libs.sqldelight.driver.ios)
             }
         }
         val iosX64Test by getting
@@ -85,6 +105,21 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+
+        val desktopMain by getting {
+            kotlin.srcDirs("src/jvmMain/kotlin")
+            dependsOn(commonMain)
+            dependencies {
+                implementation(libs.sqldelight.driver.desktop)
+            }
+        }
+    }
+}
+
+sqldelight {
+    database("Finance2UpKMMDatabase") {
+        packageName = "com.aibles.finance2upkmm.database"
+        sourceFolders = listOf("sqldelight")
     }
 }
 

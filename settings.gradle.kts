@@ -9,6 +9,7 @@ pluginManagement {
     plugins {
         val composeVersion = extra["compose.version"] as String
         id("org.jetbrains.compose").version(composeVersion)
+        id("org.jetbrains.kotlin.jvm") version "1.8.0"
     }
 }
 
@@ -24,3 +25,4 @@ include(":androidApp")
 include(":shared")
 include(":feature")
 include(":feature:authentication")
+include(":desktopApp")

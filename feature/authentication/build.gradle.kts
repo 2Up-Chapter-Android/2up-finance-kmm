@@ -18,13 +18,13 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 kotlin {
     android()
-    
+    jvm("desktop")
     listOf(
         iosX64(),
         iosArm64(),
@@ -90,6 +90,13 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+        val desktopMain by getting {
+            kotlin.srcDirs("src/jvmMain/kotlin")
+            dependsOn(commonMain)
+            dependencies {
+
+            }
+        }
     }
 }
 
@@ -106,4 +113,6 @@ dependencies {
     add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
     add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
     add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspDesktop", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspIosArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
 }
