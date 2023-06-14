@@ -1,10 +1,10 @@
 [versions]
 plugin-android = "7.4.2"
-plugin-kotlin = "1.8.10"
+plugin-kotlin = "1.8.20"
 plugin-gver = "0.46.0"
 mobile-kotlin-resource = "0.22.3"
 
-androidx-compose-compiler = "1.4.4"
+androidx-compose-compiler = "1.4.6"
 androidx-compose = "1.4.3"
 androidx-compose-ui = "1.4.3"
 androidx-compose-lifecycle-runtime = "2.6.0"
