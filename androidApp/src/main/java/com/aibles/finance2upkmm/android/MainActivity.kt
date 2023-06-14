@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Navigator(screen = LoginScreen())
+//                    MainView()
                 }
             }
         }

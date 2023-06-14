@@ -6,6 +6,9 @@ plugins {
     id("com.google.devtools.ksp") version "1.8.0-1.0.9"
     id("org.jetbrains.compose")
     id("com.squareup.sqldelight")
+
+    kotlin("native.cocoapods")
+
 }
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
@@ -25,14 +28,41 @@ java {
 kotlin {
     jvm("desktop")
     android()
-    
+
+//    iosX64()
+    iosSimulatorArm64()
+//
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+//        iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+        }
+    }
+
+//    ios()
+//    iosSimulatorArm64()
+
+    cocoapods {
+        summary = "Shared code for the sample"
+        homepage = "https://github.com/JetBrains/compose-jb"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "shared"
+            isStatic = false
+//            export(libs.moko.resources)
+
+        }
+        extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+        extraSpecAttributes["exclude_files"] = "['src/commonMain/resources/MR/**']"
+    }
+
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework> {
+            linkerOpts.add("-lsqlite3")
         }
     }
 
