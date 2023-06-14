@@ -36,4 +36,5 @@ Pod::Spec.new do |spec|
         }
     ]
     spec.resources = ['src/commonMain/resources/**', 'src/iosMain/resources/**']
+    spec.exclude_files = ['src/commonMain/resources/MR/**']
 end

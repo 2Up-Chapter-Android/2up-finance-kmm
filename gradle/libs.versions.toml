@@ -1,6 +1,6 @@
 [versions]
 plugin-android = "7.4.2"
-plugin-kotlin = "1.8.10"
+plugin-kotlin = "1.8.20"
 plugin-gver = "0.46.0"
 mobile-kotlin-resource = "0.22.3"
 
@@ -13,7 +13,7 @@ activity-compose = "1.7.1"
 kotlinx-serialization = "1.5.0"
 kotlinx-coroutines = "1.7.1"
 ktor = "2.2.4"
-ktorfit = "1.4.0"
+ktorfit = "1.1.0"
 napier = "2.6.1"
 multiplatform-settings = "1.0.0"
 voyager = "1.0.0-rc05"

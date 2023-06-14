@@ -1,22 +1,22 @@
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.library")
     kotlin("plugin.serialization")
     id("de.jensklingenberg.ktorfit") version "1.0.0"
-    id("com.google.devtools.ksp") version "1.8.0-1.0.9"
+    id("com.google.devtools.ksp") version "1.8.20-1.0.11"
     id("org.jetbrains.compose")
     id("com.squareup.sqldelight")
-
-    kotlin("native.cocoapods")
-
 }
+
+version = "1.0-SNAPSHOT"
 
 configure<de.jensklingenberg.ktorfit.gradle.KtorfitGradleConfiguration> {
     version = libs.versions.ktorfit.get()
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
 }
 
 java {
@@ -29,21 +29,9 @@ kotlin {
     jvm("desktop")
     android()
 
-//    iosX64()
-    iosSimulatorArm64()
-//
-    listOf(
-        iosX64(),
-        iosArm64(),
-//        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-        }
-    }
 
-//    ios()
-//    iosSimulatorArm64()
+    ios()
+    iosSimulatorArm64()
 
     cocoapods {
         summary = "Shared code for the sample"
@@ -54,7 +42,8 @@ kotlin {
             baseName = "shared"
             isStatic = false
 //            export(libs.moko.resources)
-
+//            export(project(":common:resources"))
+//            export(project(":libraries:scanqr"))
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
         extraSpecAttributes["exclude_files"] = "['src/commonMain/resources/MR/**']"
@@ -115,7 +104,7 @@ kotlin {
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
-        val iosMain by creating {
+        val iosMain by getting {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -129,12 +118,12 @@ kotlin {
         val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
+//        val iosTest by creating {
+//            dependsOn(commonTest)
+//            iosX64Test.dependsOn(this)
+//            iosArm64Test.dependsOn(this)
+//            iosSimulatorArm64Test.dependsOn(this)
+//        }
 
         val desktopMain by getting {
             kotlin.srcDirs("src/jvmMain/kotlin")
@@ -167,4 +156,6 @@ dependencies {
     add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
     add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
     add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspDesktop", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspIosArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
 }
