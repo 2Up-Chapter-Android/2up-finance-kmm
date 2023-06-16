@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+//                    MainView()
 //                    Navigator(screen = LoginScreen())
                     Navigator(screen = TransactionDashboardScreen())
                 }
