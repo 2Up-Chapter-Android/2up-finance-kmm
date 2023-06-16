@@ -152,10 +152,10 @@ android {
 }
 
 dependencies {
-    add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
-    add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
-    add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
-    add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
-    add("kspDesktop", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
-    add("kspIosArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${libs.versions.ktorfit.get()}")
+    add("kspCommonMainMetadata", libs.ktorfit.ksp)
+    add("kspAndroid", libs.ktorfit.ksp)
+    add("kspIosX64", libs.ktorfit.ksp)
+    add("kspIosSimulatorArm64", libs.ktorfit.ksp)
+    add("kspDesktop", libs.ktorfit.ksp)
+    add("kspIosArm64", libs.ktorfit.ksp)
 }

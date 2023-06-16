@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
+import com.aibles.authentication.presentation.ui.login.LoginScreen
 import com.aibles.transaction.presentation.TransactionDashboardScreen
 
 class MainActivity : ComponentActivity() {
