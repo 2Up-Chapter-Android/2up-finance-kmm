@@ -38,7 +38,8 @@ android {
 dependencies {
     implementation(project(":shared"))
     implementation(project(":feature:authentication"))
-    implementation(libs.bundles.compose)
+    implementation(project(":feature:transaction"))
+    implementation(libs.bundles.jetpack.compose)
     //Coroutines
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

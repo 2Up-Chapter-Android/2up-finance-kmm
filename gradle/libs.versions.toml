@@ -89,5 +89,5 @@ credentialSecureStorage = { module = "com.microsoft:credential-secure-storage", 
 
 [bundles]
 plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver", "plugin-resource-generator", "plugin-sqldelight"]
-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "activity-compose"]
+jetpack-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "activity-compose"]
 sqldelight-common = ["sqldelight-runtime", "sqldelight-coroutines"]
