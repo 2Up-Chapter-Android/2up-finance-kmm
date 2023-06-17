@@ -1,10 +1,10 @@
 [versions]
-plugin-android = "7.4.2"
-plugin-kotlin = "1.8.10"
+plugin-android = "8.0.2"
+plugin-kotlin = "1.8.20"
 plugin-gver = "0.46.0"
 mobile-kotlin-resource = "0.22.3"
 
-androidx-compose-compiler = "1.4.4"
+androidx-compose-compiler = "1.4.6"
 androidx-compose = "1.4.3"
 androidx-compose-ui = "1.4.3"
 androidx-compose-lifecycle-runtime = "2.6.0"
@@ -12,7 +12,7 @@ activity-compose = "1.7.1"
 
 kotlinx-serialization = "1.5.0"
 kotlinx-coroutines = "1.7.1"
-ktor = "2.2.4"
+ktor = "2.3.0"
 ktorfit = "1.4.0"
 napier = "2.6.1"
 multiplatform-settings = "1.0.0"
@@ -64,6 +64,7 @@ ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "kto
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktorfit = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
+ktorfit-ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit" }
 
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
@@ -89,5 +90,5 @@ credentialSecureStorage = { module = "com.microsoft:credential-secure-storage", 
 
 [bundles]
 plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver", "plugin-resource-generator", "plugin-sqldelight"]
-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "activity-compose"]
+jetpack-compose = ["androidx-compose-ui", "androidx-compose-ui-tooling", "androidx-compose-ui-tooling-preview", "androidx-compose-foundation", "androidx-compose-material", "activity-compose"]
 sqldelight-common = ["sqldelight-runtime", "sqldelight-coroutines"]

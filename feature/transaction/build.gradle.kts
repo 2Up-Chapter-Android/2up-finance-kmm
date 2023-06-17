@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "authentication"
+            baseName = "transaction"
         }
     }
 
@@ -48,9 +48,6 @@ kotlin {
                 //Network
                 implementation(libs.ktorfit)
                 implementation(libs.ktor.core)
-                implementation(libs.ktor.logging)
-                implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.serialization.kotlinx.json)
                 //Coroutines
                 implementation(libs.kotlinx.coroutines.core)
                 //JSON
@@ -101,7 +98,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.aibles.authentication"
+    namespace = "com.aibles.transaction"
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()

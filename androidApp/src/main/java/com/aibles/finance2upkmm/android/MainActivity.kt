@@ -4,15 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import cafe.adriel.voyager.navigator.Navigator
 import com.aibles.authentication.presentation.ui.login.LoginScreen
-import com.aibles.authentication.presentation.ui.otp.OTPScreen
-import com.aibles.authentication.presentation.ui.register.RegisterScreen
-import com.aibles.finance2upkmm.Greeting
+import com.aibles.transaction.presentation.TransactionDashboardScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +20,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Navigator(screen = LoginScreen())
+//                    MainView()
+//                    Navigator(screen = LoginScreen())
+                    Navigator(screen = TransactionDashboardScreen())
                 }
             }
         }

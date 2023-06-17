@@ -3,6 +3,7 @@ package com.aibles.finance2upkmm.android
 import android.app.Application
 import com.aibles.authentication.di.authenticationModule
 import com.aibles.finance2upkmm.di.sharedModule
+import com.aibles.transaction.di.transactionModule
 import com.orhanobut.hawk.Hawk
 import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
@@ -22,6 +23,7 @@ class Finance2UpApplication : Application() {
                 listOf(
                     sharedModule,
                     authenticationModule,
+                    transactionModule
                 )
             )
         }
