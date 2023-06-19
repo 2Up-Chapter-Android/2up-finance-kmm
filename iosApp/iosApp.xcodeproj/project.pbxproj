@@ -9,7 +9,14 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
+		18E40EB02A3B074B00BEE2D5 /* BackgroundCrashWorkaroundController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E40EAF2A3B074B00BEE2D5 /* BackgroundCrashWorkaroundController.swift */; };
+		18E40EB22A3B07B400BEE2D5 /* ComposeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E40EB12A3B07B400BEE2D5 /* ComposeController.swift */; };
+		18E40EB42A3B07D300BEE2D5 /* SettingsBundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E40EB32A3B07D300BEE2D5 /* SettingsBundleHelper.swift */; };
+		18E40EB62A3B07EF00BEE2D5 /* SwitchingRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E40EB52A3B07EF00BEE2D5 /* SwitchingRootView.swift */; };
+		18E40EB82A3B080000BEE2D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E40EB72A3B080000BEE2D5 /* AppDelegate.swift */; };
+		18E40EBA2A3B081500BEE2D5 /* KoinApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E40EB92A3B081500BEE2D5 /* KoinApplication.swift */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		3CDAF6310B36CCDAE2EBBA4D /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433E423A6C7637C3EFC757AE /* Pods_iosApp.framework */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +36,14 @@
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		18E40EAF2A3B074B00BEE2D5 /* BackgroundCrashWorkaroundController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundCrashWorkaroundController.swift; sourceTree = "<group>"; };
+		18E40EB12A3B07B400BEE2D5 /* ComposeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeController.swift; sourceTree = "<group>"; };
+		18E40EB32A3B07D300BEE2D5 /* SettingsBundleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundleHelper.swift; sourceTree = "<group>"; };
+		18E40EB52A3B07EF00BEE2D5 /* SwitchingRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchingRootView.swift; sourceTree = "<group>"; };
+		18E40EB72A3B080000BEE2D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		18E40EB92A3B081500BEE2D5 /* KoinApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoinApplication.swift; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		433E423A6C7637C3EFC757AE /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CDAF6310B36CCDAE2EBBA4D /* Pods_iosApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,11 +92,17 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				18E40EAF2A3B074B00BEE2D5 /* BackgroundCrashWorkaroundController.swift */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				18E40EB12A3B07B400BEE2D5 /* ComposeController.swift */,
+				18E40EB32A3B07D300BEE2D5 /* SettingsBundleHelper.swift */,
+				18E40EB52A3B07EF00BEE2D5 /* SwitchingRootView.swift */,
+				18E40EB72A3B080000BEE2D5 /* AppDelegate.swift */,
+				18E40EB92A3B081500BEE2D5 /* KoinApplication.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -89,6 +110,7 @@
 		7555FFB0242A642200829871 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				433E423A6C7637C3EFC757AE /* Pods_iosApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,8 +257,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18E40EB22A3B07B400BEE2D5 /* ComposeController.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				18E40EB02A3B074B00BEE2D5 /* BackgroundCrashWorkaroundController.swift in Sources */,
+				18E40EB42A3B07D300BEE2D5 /* SettingsBundleHelper.swift in Sources */,
+				18E40EB82A3B080000BEE2D5 /* AppDelegate.swift in Sources */,
+				18E40EBA2A3B081500BEE2D5 /* KoinApplication.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				18E40EB62A3B07EF00BEE2D5 /* SwitchingRootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,10 +322,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-ObjC",
+					"-framework",
+					QuartzCore,
+					"-framework",
+					UIKit,
+					"$(inherited)",
+				);
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -349,7 +385,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
