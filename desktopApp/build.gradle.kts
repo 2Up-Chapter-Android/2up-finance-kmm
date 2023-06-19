@@ -13,6 +13,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":shared"))
                 implementation(project(":feature:authentication"))
+                implementation(project(":feature:transaction"))
                 implementation(libs.koin.core)
                 //Navigation
                 implementation(libs.voyager.navigator)
