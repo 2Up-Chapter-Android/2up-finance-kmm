@@ -7,6 +7,8 @@ import cafe.adriel.voyager.navigator.Navigator
 import com.aibles.authentication.di.authenticationModule
 import com.aibles.authentication.presentation.ui.login.LoginScreen
 import com.aibles.finance2upkmm.di.sharedModule
+import com.aibles.transaction.di.transactionNetworkModule
+import com.aibles.transaction.presentation.TransactionDashboardScreen
 import org.koin.core.context.KoinContextHandler
 import org.koin.core.context.startKoin
 
@@ -20,10 +22,11 @@ fun main() =  singleWindowApplication (
                 listOf(
                     sharedModule,
                     authenticationModule,
+                    transactionNetworkModule
                 )
             )
         }
     }
     val koin = KoinContextHandler.get()
-    Navigator(screen = LoginScreen())
+    Navigator(screen = TransactionDashboardScreen())
 }
