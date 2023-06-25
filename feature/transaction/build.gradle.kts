@@ -44,7 +44,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.runtime)
-                implementation(libs.compose.resource)
+                implementation(libs.moko.compose.resource)
                 //Network
                 implementation(libs.ktorfit)
                 implementation(libs.ktor.core)

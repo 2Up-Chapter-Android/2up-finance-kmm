@@ -37,7 +37,8 @@ plugin-gver = { module = "com.github.ben-manes:gradle-versions-plugin", version.
 plugin-resource-generator = { module = "dev.icerock.moko:resources-generator", version.ref = "mobile-kotlin-resource"}
 plugin-sqldelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight"}
 
-compose-resource = { module = "dev.icerock.moko:resources-compose", version.ref = "mobile-kotlin-resource"}
+moko-compose-resource = { module = "dev.icerock.moko:resources-compose", version.ref = "mobile-kotlin-resource"}
+moko-resource = { module = "dev.icerock.moko:resources", version.ref = "mobile-kotlin-resource"}
 
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }

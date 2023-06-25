@@ -41,7 +41,7 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = false
-//            export(libs.moko.resources)
+            export(libs.moko.resource)
 //            export(project(":common:resources"))
 //            export(project(":libraries:scanqr"))
         }
